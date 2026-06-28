@@ -1,0 +1,4 @@
+# Secrets / configs MCP — contiennent des tokens privés, NE JAMAIS committer
+.mcp.json
+**/.mcp.json
+**/UserSettings/mcp.json
