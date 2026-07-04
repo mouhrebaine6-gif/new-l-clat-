@@ -84,7 +84,7 @@ namespace Leclat.AR
             {
                 FragmentId = "horizon",
                 MarkerResourceName = "FRAGMENT_HORIZON_MARKER",
-                ModelPath = "back_wings/FRAGMENT_HORIZON/scene.gltf",
+                ModelPath = "back_wings/FRAGMENT_HORIZON.glb",
                 Scale = 0.24f,
                 Anchor = new Vector3(0f, 0.06f, 0f),
                 Animation = FragmentAnimation.Idle,
