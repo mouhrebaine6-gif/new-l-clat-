@@ -98,9 +98,20 @@ export async function ensureClaimed(qrToken: string): Promise<void> {
   }
 }
 
-/** État des fragments possédés par ce device (paliers serveur). */
-export async function getProgression(): Promise<unknown> {
-  if (!hasSupabaseConfig() || !supabase) return [];
-  const { data } = await supabase.rpc("get_progression", { p_device_id: getDeviceId() });
-  return data ?? [];
+export type ProgressionEntry = {
+  fragment: string;
+  scan_count: number;
+  access_level: string;
+};
+
+/**
+ * État des fragments possédés par ce device (paliers serveur).
+ * `null` = serveur injoignable (le consommateur garde son cache) ;
+ * `[]` = réponse valide, aucun t-shirt possédé.
+ */
+export async function getProgression(): Promise<ProgressionEntry[] | null> {
+  if (!hasSupabaseConfig() || !supabase) return null;
+  const { data, error } = await supabase.rpc("get_progression", { p_device_id: getDeviceId() });
+  if (error) return null;
+  return Array.isArray(data) ? (data as ProgressionEntry[]) : [];
 }

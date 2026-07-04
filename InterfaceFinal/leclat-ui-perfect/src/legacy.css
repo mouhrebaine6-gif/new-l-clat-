@@ -1,0 +1,406 @@
+/* L'Éclat — échelle typographique mobile-first.
+ * Polices système uniquement : pas d'appel réseau dans la WebView Unity.
+ * Tailles fluides via clamp() pour ne jamais casser sur petit écran. */
+
+/* L'Éclat — design tokens. Sombre, minéral, textile, cérémoniel. */
+
+:root {
+  /* Base */
+  --background: 30 12% 5%; /* noir minéral */
+  --foreground: 40 25% 88%; /* ivoire poussière */
+
+  --card: 28 10% 7%;
+  --card-foreground: 40 25% 88%;
+
+  --popover: 28 10% 7%;
+  --popover-foreground: 40 25% 88%;
+
+  /* Or éteint / laiton brûlé */
+  --primary: 36 38% 54%;
+  --primary-foreground: 30 12% 5%;
+
+  /* Pierre froide */
+  --secondary: 30 8% 14%;
+  --secondary-foreground: 40 25% 88%;
+
+  --muted: 30 6% 12%;
+  --muted-foreground: 40 10% 58%;
+
+  --accent: 36 38% 54%;
+  --accent-foreground: 30 12% 5%;
+
+  /* Rouge braise */
+  --destructive: 12 60% 30%;
+  --destructive-foreground: 40 25% 88%;
+
+  --border: 36 12% 18%;
+  --input: 36 12% 18%;
+  --ring: 36 38% 54%;
+
+  --radius: 0.125rem;
+
+  /* Tokens spécifiques L'Éclat */
+  --ember: 12 55% 32%; /* braise */
+  --voile: 40 25% 88%; /* ivoire */
+  --voile-dim: 40 18% 62%;
+  --laiton: 36 38% 54%;
+  --laiton-dim: 36 22% 38%;
+  --noir-profond: 30 14% 3%;
+
+  --gradient-voile: radial-gradient(ellipse at top, hsl(36 38% 54% / 0.12), transparent 60%);
+  --gradient-faille: linear-gradient(180deg, transparent, hsl(36 38% 54% / 0.4), transparent);
+  --gradient-mineral: linear-gradient(180deg, hsl(30 12% 5%) 0%, hsl(28 10% 7%) 100%);
+
+  --shadow-ceremoniel: 0 30px 80px -30px hsl(36 38% 54% / 0.25);
+  --shadow-textile: 0 1px 0 hsl(36 12% 18%), 0 20px 40px -20px hsl(0 0% 0% / 0.6);
+
+  --transition-rituel: 900ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-souffle: 1400ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  border-color: hsl(var(--border));
+}
+html,
+body,
+#root {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  min-height: 100%;
+  min-height: 100dvh;
+}
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overscroll-behavior-y: none;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, hsl(36 38% 54% / 0.06), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 50% 110%, hsl(12 55% 32% / 0.05), transparent 60%);
+  background-attachment: fixed;
+}
+/* Désactive la sélection accidentelle dans les zones rituelles tactiles, garde-la sur prose */
+button,
+nav,
+header,
+[role="button"] {
+  -webkit-user-select: none;
+  user-select: none;
+}
+input,
+textarea,
+p,
+h1,
+h2,
+h3,
+h4,
+li {
+  -webkit-user-select: text;
+  user-select: text;
+}
+/* Grain papier subtil */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.9 0 0 0 0 0.85 0 0 0 0 0.7 0 0 0 0.6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  mix-blend-mode: overlay;
+}
+
+.font-serif-rituel {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+}
+.font-mono-eclat {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+html[data-lang="ar"] .font-serif-rituel,
+html[data-lang="ar"] .font-mono-eclat {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: 0;
+}
+.text-laiton {
+  color: hsl(var(--laiton));
+}
+.text-voile-dim {
+  color: hsl(var(--voile-dim));
+}
+.bg-noir-profond {
+  background-color: hsl(var(--noir-profond));
+}
+.border-laiton-dim {
+  border-color: hsl(var(--laiton-dim) / 0.4);
+}
+.gradient-voile {
+  background-image: var(--gradient-voile);
+}
+.gradient-mineral {
+  background-image: var(--gradient-mineral);
+}
+.shadow-ceremoniel {
+  box-shadow: var(--shadow-ceremoniel);
+}
+.shadow-textile {
+  box-shadow: var(--shadow-textile);
+}
+.tracking-rituel {
+  letter-spacing: 0.32em;
+}
+.tracking-mineral {
+  letter-spacing: 0.18em;
+}
+
+html[data-lang="ar"] .tracking-rituel,
+html[data-lang="ar"] .tracking-mineral {
+  letter-spacing: 0;
+}
+
+@keyframes respire {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+}
+.anim-respire {
+  animation: respire 6s ease-in-out infinite;
+}
+
+@keyframes voile-shimmer {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+.anim-voile {
+  animation: voile-shimmer 8s ease-in-out infinite;
+}
+
+@keyframes faille-scan {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+.anim-faille {
+  animation: faille-scan 3s ease-in-out infinite;
+}
+
+@keyframes orbit-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.anim-orbit {
+  animation: orbit-slow 60s linear infinite;
+}
+.anim-orbit-rev {
+  animation: orbit-slow 90s linear infinite reverse;
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -8px, 0);
+  }
+}
+.anim-drift {
+  animation: drift 9s ease-in-out infinite;
+}
+
+@keyframes shimmer-line {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+.text-shimmer {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--voile-dim)) 0%,
+    hsl(var(--laiton)) 50%,
+    hsl(var(--voile-dim)) 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer-line 6s linear infinite;
+}
+
+/* Sceau de filigrane */
+.filigrane {
+  background-image:
+    repeating-linear-gradient(45deg, hsl(var(--laiton) / 0.04) 0 1px, transparent 1px 9px),
+    repeating-linear-gradient(-45deg, hsl(var(--laiton) / 0.04) 0 1px, transparent 1px 9px);
+}
+.vignette-mineral {
+  background: radial-gradient(
+    ellipse at center,
+    transparent 40%,
+    hsl(var(--noir-profond) / 0.85) 100%
+  );
+}
+.ligne-sacrée {
+  background: linear-gradient(90deg, transparent, hsl(var(--laiton) / 0.6), transparent);
+}
+
+/* Étoiles statiques (pseudo-particules) */
+.ciel-poussiere {
+  background-image:
+    radial-gradient(1px 1px at 20% 30%, hsl(var(--voile) / 0.4), transparent 50%),
+    radial-gradient(1px 1px at 70% 60%, hsl(var(--laiton) / 0.5), transparent 50%),
+    radial-gradient(1px 1px at 40% 80%, hsl(var(--voile) / 0.3), transparent 50%),
+    radial-gradient(1px 1px at 85% 20%, hsl(var(--laiton) / 0.4), transparent 50%),
+    radial-gradient(1px 1px at 10% 70%, hsl(var(--voile) / 0.35), transparent 50%),
+    radial-gradient(1px 1px at 55% 15%, hsl(var(--laiton) / 0.5), transparent 50%),
+    radial-gradient(1px 1px at 30% 50%, hsl(var(--voile) / 0.3), transparent 50%);
+}
+
+/* Bordure ornementale */
+.border-ornement {
+  border-image: linear-gradient(180deg, transparent, hsl(var(--laiton) / 0.6), transparent) 1;
+}
+
+.grain-textile {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='t'><feTurbulence type='fractalNoise' baseFrequency='1.6' numOctaves='1' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.7 0 0 0 0 0.6 0 0 0 0 0.4 0 0 0 0.5 0'/></filter><rect width='100%' height='100%' filter='url(%23t)'/></svg>");
+}
+
+.num-roman {
+  font-family: Georgia, "Times New Roman", serif;
+  font-feature-settings: "smcp", "c2sc";
+  letter-spacing: 0.18em;
+}
+
+/* Safe-areas iOS / Android (notch + barre gestes) — pour Unity WebView */
+.safe-top {
+  padding-top: env(safe-area-inset-top);
+}
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.safe-x {
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+.pb-nav {
+  padding-bottom: calc(6.25rem + env(safe-area-inset-bottom));
+}
+.h-nav {
+  height: calc(3.75rem + env(safe-area-inset-bottom));
+}
+
+/* Targets tactiles minimum 44px — guidelines Apple/Google */
+.tap {
+  min-height: 44px;
+  min-width: 44px;
+  transform-origin: center;
+  transition:
+    transform 180ms cubic-bezier(0.16, 1, 0.3, 1),
+    color 500ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 500ms cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tap:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+html[data-unity-webview="1"] .anim-orbit,
+html[data-unity-webview="1"] .anim-orbit-rev,
+html[data-unity-webview="1"] .anim-drift,
+html[data-unity-webview="1"] .text-shimmer {
+  will-change: transform, opacity;
+}
+
+html[data-unity-webview="1"] .anim-orbit {
+  animation-duration: 120s;
+}
+
+html[data-unity-webview="1"] .anim-orbit-rev {
+  animation-duration: 160s;
+}
+
+html[data-unity-webview="1"] .anim-drift {
+  animation-duration: 18s;
+}
+
+html[data-unity-webview="1"] .text-shimmer {
+  animation-duration: 10s;
+}
+
+html[data-unity-webview="1"] .anim-respire {
+  animation-duration: 12s;
+}
+
+html[data-unity-webview="1"] .anim-voile,
+html[data-unity-webview="1"] .anim-faille {
+  animation-duration: 7s;
+}
+
+html[data-unity-webview="1"] .ciel-poussiere {
+  opacity: 0.16 !important;
+}
+
+html[data-unity-webview="1"] .vignette-mineral {
+  opacity: 0.75;
+}
+
+html[data-unity-webview="1"] .shadow-textile,
+html[data-unity-webview="1"] [class*="drop-shadow"],
+html[data-unity-webview="1"] [class*="shadow-"] {
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+html[data-unity-webview="1"] .unity-perf-static {
+  transform: none !important;
+  will-change: auto !important;
+}
+
+/* Réduction des animations si l'utilisateur le demande */
+@media (prefers-reduced-motion: reduce) {
+  .anim-respire,
+  .anim-voile,
+  .anim-faille,
+  .anim-orbit,
+  .anim-orbit-rev,
+  .anim-drift {
+    animation: none !important;
+  }
+  * {
+    transition-duration: 0.01ms !important;
+  }
+}

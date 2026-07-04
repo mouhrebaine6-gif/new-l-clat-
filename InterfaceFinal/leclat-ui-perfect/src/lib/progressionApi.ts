@@ -16,7 +16,32 @@ type SupabaseMaybeError = {
   hint?: string;
 };
 
-const missingBackendCodes = new Set(["42P01", "42883", "PGRST106", "PGRST202", "PGRST204", "PGRST205"]);
+type RemoteSkippedResult = {
+  ok: false;
+  skipped: true;
+  reason?: string;
+};
+
+type RemoteErrorResult = {
+  ok: false;
+  error: SupabaseMaybeError;
+};
+
+type RemoteMutationResult<TData = unknown> =
+  | { ok: true; data?: TData }
+  | RemoteSkippedResult
+  | RemoteErrorResult;
+
+type RemoteLoadResult<TData> = { ok: true; data: TData } | RemoteSkippedResult | RemoteErrorResult;
+
+const missingBackendCodes = new Set([
+  "42P01",
+  "42883",
+  "PGRST106",
+  "PGRST202",
+  "PGRST204",
+  "PGRST205",
+]);
 
 const isMissingProgressionBackendError = (error: unknown): error is SupabaseMaybeError => {
   if (!error || typeof error !== "object") return false;
@@ -24,19 +49,19 @@ const isMissingProgressionBackendError = (error: unknown): error is SupabaseMayb
   if (e.code && missingBackendCodes.has(e.code)) return true;
   const text = [e.message, e.details, e.hint].filter(Boolean).join(" ").toLowerCase();
   return (
-    text.includes("schema \"api\"") ||
+    text.includes('schema "api"') ||
     text.includes("could not find the schema") ||
     text.includes("could not find the table") ||
     text.includes("could not find the function") ||
     text.includes("schema cache") ||
-    text.includes("relation") && text.includes("does not exist") ||
-    text.includes("function") && text.includes("does not exist")
+    (text.includes("relation") && text.includes("does not exist")) ||
+    (text.includes("function") && text.includes("does not exist"))
   );
 };
 
-const skippedProgressionBackend = (error?: SupabaseMaybeError) => ({
-  ok: false as const,
-  skipped: true as const,
+const skippedProgressionBackend = (error?: SupabaseMaybeError): RemoteSkippedResult => ({
+  ok: false,
+  skipped: true,
   reason: error?.message || "Remote progression backend is not deployed.",
 });
 
@@ -56,10 +81,6 @@ type UserGarmentRow = {
   products?: ProductRef | ProductRef[] | null;
 };
 
-type AppEventRow = {
-  payload?: Record<string, unknown> | null;
-};
-
 const productFromGarmentRow = (row: UserGarmentRow): ProductRef | null => {
   if (Array.isArray(row.products)) return row.products[0] ?? null;
   return row.products ?? null;
@@ -68,7 +89,10 @@ const productFromGarmentRow = (row: UserGarmentRow): ProductRef | null => {
 const garmentIdFromFragment = (fragmentId?: string) =>
   GARMENT_CATALOG.find((garment) => garment.fragmentId === fragmentId)?.id;
 
-export const syncAppEvent = async (eventType: AppEventType, payload: Record<string, unknown>) => {
+export const syncAppEvent = async (
+  eventType: AppEventType,
+  payload: Record<string, unknown>,
+): Promise<RemoteMutationResult> => {
   const client = api();
   if (!client) return { ok: false as const, skipped: true as const };
   const { error } = await client.rpc("log_app_event", {
@@ -83,7 +107,7 @@ export const syncAppEvent = async (eventType: AppEventType, payload: Record<stri
   return { ok: true as const };
 };
 
-export const activateGarmentRemote = async (token: string) => {
+export const activateGarmentRemote = async (token: string): Promise<RemoteMutationResult> => {
   const client = api();
   if (!client) return { ok: false as const, skipped: true as const };
   const { data, error } = await client.rpc("activate_garment", { token });
@@ -95,7 +119,9 @@ export const activateGarmentRemote = async (token: string) => {
   return { ok: true as const, data };
 };
 
-export const claimMissionRewardRemote = async (missionId: string) => {
+export const claimMissionRewardRemote = async (
+  missionId: string,
+): Promise<RemoteMutationResult> => {
   const client = api();
   if (!client) return { ok: false as const, skipped: true as const };
   const { data, error } = await client.rpc("claim_mission_reward", { mission_id: missionId });
@@ -107,7 +133,7 @@ export const claimMissionRewardRemote = async (missionId: string) => {
   return { ok: true as const, data };
 };
 
-export const unlockSkinRemote = async (skinId: string) => {
+export const unlockSkinRemote = async (skinId: string): Promise<RemoteMutationResult> => {
   const client = api();
   if (!client) return { ok: false as const, skipped: true as const };
   const { data, error } = await client.rpc("unlock_skin_if_eligible", { skin_id: skinId });
@@ -119,7 +145,9 @@ export const unlockSkinRemote = async (skinId: string) => {
   return { ok: true as const, data };
 };
 
-export const loadRemoteProgression = async (userId: string) => {
+export const loadRemoteProgression = async (
+  userId: string,
+): Promise<RemoteLoadResult<RemoteProgressionSnapshot>> => {
   if (!supabase) return { ok: false as const, skipped: true as const };
 
   const [profileResult, garmentsResult, missionsResult, skinsResult] = await Promise.all([
@@ -131,9 +159,13 @@ export const loadRemoteProgression = async (userId: string) => {
     supabase
       .from("user_garments")
       .select("product_id, active_skin_id, status, products(fragment_id, product_code)")
+      .eq("user_id", userId)
       .eq("status", "active"),
-    supabase.from("user_missions").select("mission_id, progress, completed_at, claimed_at"),
-    supabase.from("user_skins").select("skin_id"),
+    supabase
+      .from("user_missions")
+      .select("mission_id, progress, completed_at, claimed_at")
+      .eq("user_id", userId),
+    supabase.from("user_skins").select("skin_id").eq("user_id", userId),
   ]);
 
   const firstError =
@@ -198,34 +230,6 @@ export const loadRemoteProgression = async (userId: string) => {
   return { ok: true as const, data: snapshot };
 };
 
-const fragmentIdFromScanPayload = (payload?: Record<string, unknown> | null) => {
-  const value = payload?.fragment_id ?? payload?.fragmentId;
-  return typeof value === "string" && value.trim() ? value.trim() : undefined;
-};
-
-export const loadRemoteFragmentScanCounts = async () => {
-  if (!supabase) return { ok: false as const, skipped: true as const };
-
-  const { data, error } = await supabase
-    .from("app_events")
-    .select("payload")
-    .eq("event_type", "garment_scanned")
-    .order("created_at", { ascending: false })
-    .limit(1000);
-
-  if (error) {
-    return isMissingProgressionBackendError(error)
-      ? skippedProgressionBackend(error)
-      : { ok: false as const, error };
-  }
-
-  const counts: Record<string, number> = {};
-  for (const row of (data ?? []) as AppEventRow[]) {
-    if (row.payload?.["access_level"] === "scanner_preview") continue;
-    const fragmentId = fragmentIdFromScanPayload(row.payload);
-    if (!fragmentId) continue;
-    counts[fragmentId] = (counts[fragmentId] || 0) + 1;
-  }
-
-  return { ok: true as const, data: counts };
-};
+// Note : le comptage des paliers d'histoire ne passe plus par app_events —
+// il vient de public.get_progression (Constitution des scans), cf.
+// useStoryScanCounts. Ce module ne gère plus que profil/missions/skins.

@@ -1,0 +1,23 @@
+# ninja log v5
+194	3516	8037169226256064	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	3a9c8f1a11cd5fa4
+2	11874	8037169311618692	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	f89711c8e162aa85
+58	10976	8037169301454604	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	4968e9c94700b3a1
+3519	9761	8037169286784646	D:/LECLAT/UnityProjects/LECLAT_AR_Mobile/Library/Bee/Android/Prj/Mono2x/Gradle/unityLibrary/build/intermediates/cxx/Debug/1a4r5kl5/obj/armeabi-v7a/libswappywrapper.so	21e98f4b4fa0a540
+22	11001	8037169302949928	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	5bfe84bd6645e8a9
+40	11552	8037169306922451	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	6d60ffc60c404256
+151	11153	8037169303118529	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	7fb31deb4416fefb
+76	11319	8037169302748426	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	6ea911e8ea2e3ab5
+132	11845	8037169310637263	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	533323849e3115d2
+174	12796	8037169320375126	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	d3c6277ee5fa190a
+12797	13245	8037169325790003	D:/LECLAT/UnityProjects/LECLAT_AR_Mobile/Library/Bee/Android/Prj/Mono2x/Gradle/unityLibrary/build/intermediates/cxx/Debug/1a4r5kl5/obj/armeabi-v7a/libgame.so	95047aac8a991c9f
+378	1670	8037179751869516	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	3a9c8f1a11cd5fa4
+1671	3009	8037179763777490	D:/LECLAT/UnityProjects/LECLAT_AR_Mobile/Library/Bee/Android/Prj/Mono2x/Gradle/unityLibrary/build/intermediates/cxx/Debug/1a4r5kl5/obj/armeabi-v7a/libswappywrapper.so	21e98f4b4fa0a540
+76	5907	8037179794503596	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	5bfe84bd6645e8a9
+314	5980	8037179794617251	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	6ea911e8ea2e3ab5
+231	5989	8037179795022451	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	4968e9c94700b3a1
+294	6000	8037179795350779	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	7fb31deb4416fefb
+128	6066	8037179796422257	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	6d60ffc60c404256
+357	7409	8037179809865565	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	d3c6277ee5fa190a
+193	7491	8037179810492633	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	f89711c8e162aa85
+335	7496	8037179810592747	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	533323849e3115d2
+7496	7805	8037179813789425	D:/LECLAT/UnityProjects/LECLAT_AR_Mobile/Library/Bee/Android/Prj/Mono2x/Gradle/unityLibrary/build/intermediates/cxx/Debug/1a4r5kl5/obj/armeabi-v7a/libgame.so	95047aac8a991c9f

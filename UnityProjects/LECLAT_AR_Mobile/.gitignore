@@ -1,0 +1,22 @@
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+*.csproj
+*.sln
+*.user
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+sysinfo.txt
+
+# Vuforia — cle de licence privee, NE JAMAIS committer
+[Aa]ssets/[Rr]esources/VuforiaConfiguration.asset
+[Aa]ssets/[Rr]esources/VuforiaConfiguration.asset.meta

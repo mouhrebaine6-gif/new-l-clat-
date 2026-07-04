@@ -1,0 +1,478 @@
+{
+  "generatedAtUtc": "2026-05-26T01:01:01.1883033Z",
+  "sourceManifest": "D:\\LECLAT\\ModelLibrary_Curated\\UNITY_MOBILE_FINAL_20260526\\optimization-report.json",
+  "note": "Runtime model manifest for L ECLAT Unity AR. GLB files are mobile optimized with meshopt compression and max 512px textures. Production release still requires license approval where marked.",
+  "fragments": [
+    {
+      "fragmentId": "FRAGMENT_09_ASCENSION_TEST",
+      "modelId": "MODEL_0060",
+      "usage": "back_wings",
+      "file": "back_wings/MODEL_0060_back_wings_AR_READY_unity_ready.glb",
+      "sourceVerdict": "AR_READY",
+      "sourceVariant": "MOBILE_LITE",
+      "licensePolicy": "LICENSE_REVIEW_REQUIRED_BEFORE_PRODUCTION",
+      "productionApproved": false,
+      "placement": {
+        "anchor": "back_shoulders",
+        "targetSizeMeters": 1.5,
+        "localOffsetMeters": {
+          "x": 0,
+          "y": 0.08,
+          "z": 0.22
+        },
+        "localEulerDegrees": {
+          "x": 0,
+          "y": 180,
+          "z": 0
+        },
+        "note": "Ailes derriere le dos, centrees sur les epaules; rendu large type AR fashion."
+      },
+      "stats": {
+        "triangles": 404,
+        "vertices": 468,
+        "animations": 6,
+        "maxTexture": 512,
+        "sizeMB": 0.702
+      },
+      "mobileOptimization": {
+        "sourceBytes": 836924,
+        "optimizedBytes": 736276,
+        "savedBytes": 100648,
+        "savedPct": 12.03,
+        "compression": "meshopt",
+        "textureMax": 512,
+        "simplify": false,
+        "note": "Optimized with glTF Transform for mobile runtime. Geometry was not simplified so wings silhouettes stay intact."
+      },
+      "appFragmentId": "eveil",
+      "aliases": [
+        "ascension_wings",
+        "skin_wings_ascension"
+      ]
+    },
+    {
+      "fragmentId": "FRAGMENT_10_ANGEL_WINGS_TEST",
+      "modelId": "MODEL_0188",
+      "usage": "back_wings",
+      "file": "back_wings/MODEL_0188_back_wings_AR_READY_unity_ready.glb",
+      "sourceVerdict": "AR_READY",
+      "sourceVariant": "MOBILE_LITE",
+      "licensePolicy": "INTERNAL_TEST_ONLY_LICENSE_UNKNOWN",
+      "productionApproved": false,
+      "placement": {
+        "anchor": "back_shoulders",
+        "targetSizeMeters": 1.5,
+        "localOffsetMeters": {
+          "x": 0,
+          "y": 0.08,
+          "z": 0.22
+        },
+        "localEulerDegrees": {
+          "x": 0,
+          "y": 180,
+          "z": 0
+        },
+        "note": "Ailes derriere le dos, centrees sur les epaules; rendu large type AR fashion."
+      },
+      "stats": {
+        "triangles": 4968,
+        "vertices": 4591,
+        "animations": 0,
+        "maxTexture": 512,
+        "sizeMB": 0.21
+      },
+      "mobileOptimization": {
+        "sourceBytes": 349232,
+        "optimizedBytes": 223728,
+        "savedBytes": 125504,
+        "savedPct": 35.94,
+        "compression": "meshopt",
+        "textureMax": 512,
+        "simplify": false,
+        "note": "Optimized with glTF Transform for mobile runtime. Geometry was not simplified so wings silhouettes stay intact."
+      },
+      "appFragmentId": "souffle",
+      "aliases": [
+        "souffle",
+        "skin_angel_wings"
+      ]
+    },
+    {
+      "fragmentId": "FRAGMENT_11_DRAGON_WINGS_TEST",
+      "modelId": "MODEL_0312",
+      "usage": "back_wings",
+      "file": "back_wings/MODEL_0312_back_wings_AR_READY_unity_ready.glb",
+      "sourceVerdict": "AR_READY",
+      "sourceVariant": "MOBILE_LITE",
+      "licensePolicy": "INTERNAL_TEST_ONLY_LICENSE_UNKNOWN",
+      "productionApproved": false,
+      "placement": {
+        "anchor": "back_shoulders",
+        "targetSizeMeters": 1.5,
+        "localOffsetMeters": {
+          "x": 0,
+          "y": 0.08,
+          "z": 0.22
+        },
+        "localEulerDegrees": {
+          "x": 0,
+          "y": 180,
+          "z": 0
+        },
+        "note": "Ailes derriere le dos, centrees sur les epaules; rendu large type AR fashion."
+      },
+      "stats": {
+        "triangles": 2909,
+        "vertices": 2108,
+        "animations": 0,
+        "maxTexture": 512,
+        "sizeMB": 0.25
+      },
+      "mobileOptimization": {
+        "sourceBytes": 316020,
+        "optimizedBytes": 262404,
+        "savedBytes": 53616,
+        "savedPct": 16.97,
+        "compression": "meshopt",
+        "textureMax": 512,
+        "simplify": false,
+        "note": "Optimized with glTF Transform for mobile runtime. Geometry was not simplified so wings silhouettes stay intact."
+      },
+      "appFragmentId": "forge",
+      "aliases": [
+        "forge",
+        "skin_dragon_wings"
+      ]
+    },
+    {
+      "fragmentId": "FRAGMENT_12_MECHANICAL_WINGS_TEST",
+      "modelId": "MODEL_0429",
+      "usage": "back_wings",
+      "file": "back_wings/MODEL_0429_back_wings_AR_READY_unity_ready.glb",
+      "sourceVerdict": "AR_READY",
+      "sourceVariant": "MOBILE_LITE",
+      "licensePolicy": "INTERNAL_TEST_ONLY_LICENSE_UNKNOWN",
+      "productionApproved": false,
+      "placement": {
+        "anchor": "back_shoulders",
+        "targetSizeMeters": 1.5,
+        "localOffsetMeters": {
+          "x": 0,
+          "y": 0.08,
+          "z": 0.22
+        },
+        "localEulerDegrees": {
+          "x": 0,
+          "y": 180,
+          "z": 0
+        },
+        "note": "Ailes derriere le dos, centrees sur les epaules; rendu large type AR fashion."
+      },
+      "stats": {
+        "triangles": 2124,
+        "vertices": 3197,
+        "animations": 0,
+        "maxTexture": 0,
+        "sizeMB": 0.028
+      },
+      "mobileOptimization": {
+        "sourceBytes": 93580,
+        "optimizedBytes": 28944,
+        "savedBytes": 64636,
+        "savedPct": 69.07,
+        "compression": "meshopt",
+        "textureMax": 512,
+        "simplify": false,
+        "note": "Optimized with glTF Transform for mobile runtime. Geometry was not simplified so wings silhouettes stay intact."
+      },
+      "appFragmentId": "prisme",
+      "aliases": [
+        "prisme",
+        "skin_mechanical_wings"
+      ]
+    },
+    {
+      "fragmentId": "FRAGMENT_13_ANIMATED_WING_TEST",
+      "modelId": "MODEL_0500",
+      "usage": "back_wings",
+      "file": "back_wings/MODEL_0500_back_wings_AR_READY_unity_ready.glb",
+      "sourceVerdict": "AR_READY",
+      "sourceVariant": "MOBILE_LITE",
+      "licensePolicy": "INTERNAL_TEST_ONLY_LICENSE_UNKNOWN",
+      "productionApproved": false,
+      "placement": {
+        "anchor": "back_shoulders",
+        "targetSizeMeters": 1.5,
+        "localOffsetMeters": {
+          "x": 0,
+          "y": 0.08,
+          "z": 0.22
+        },
+        "localEulerDegrees": {
+          "x": 0,
+          "y": 180,
+          "z": 0
+        },
+        "note": "Ailes derriere le dos, centrees sur les epaules; rendu large type AR fashion."
+      },
+      "stats": {
+        "triangles": 1444,
+        "vertices": 1076,
+        "animations": 2,
+        "maxTexture": 512,
+        "sizeMB": 0.491
+      },
+      "mobileOptimization": {
+        "sourceBytes": 580144,
+        "optimizedBytes": 515136,
+        "savedBytes": 65008,
+        "savedPct": 11.21,
+        "compression": "meshopt",
+        "textureMax": 512,
+        "simplify": false,
+        "note": "Optimized with glTF Transform for mobile runtime. Geometry was not simplified so wings silhouettes stay intact."
+      },
+      "appFragmentId": "eveil",
+      "aliases": [
+        "eveil",
+        "animated_wings",
+        "skin_wings_animated"
+      ]
+    },
+    {
+      "fragmentId": "FRAGMENT_14_MECHA_WINGS_TEST",
+      "modelId": "MODEL_0476",
+      "usage": "back_wings",
+      "file": "back_wings/MODEL_0476_back_wings_AR_READY_unity_ready.glb",
+      "sourceVerdict": "AR_READY",
+      "sourceVariant": "MOBILE_LITE",
+      "licensePolicy": "INTERNAL_TEST_ONLY_LICENSE_UNKNOWN",
+      "productionApproved": false,
+      "placement": {
+        "anchor": "back_shoulders",
+        "targetSizeMeters": 1.5,
+        "localOffsetMeters": {
+          "x": 0,
+          "y": 0.08,
+          "z": 0.22
+        },
+        "localEulerDegrees": {
+          "x": 0,
+          "y": 180,
+          "z": 0
+        },
+        "note": "Ailes derriere le dos, centrees sur les epaules; rendu large type AR fashion."
+      },
+      "stats": {
+        "triangles": 1928,
+        "vertices": 3112,
+        "animations": 1,
+        "maxTexture": 512,
+        "sizeMB": 2.157
+      },
+      "mobileOptimization": {
+        "sourceBytes": 2385588,
+        "optimizedBytes": 2262016,
+        "savedBytes": 123572,
+        "savedPct": 5.18,
+        "compression": "meshopt",
+        "textureMax": 512,
+        "simplify": false,
+        "note": "Optimized with glTF Transform for mobile runtime. Geometry was not simplified so wings silhouettes stay intact."
+      },
+      "appFragmentId": "forge",
+      "aliases": [
+        "mecha_wings",
+        "skin_mecha_wings"
+      ]
+    },
+    {
+      "fragmentId": "FRAGMENT_15_DRAGON_TEST",
+      "modelId": "MODEL_0091",
+      "usage": "side_dragon",
+      "file": "side_dragon/MODEL_0091_side_dragon_AR_READY_unity_ready.glb",
+      "sourceVerdict": "AR_READY",
+      "sourceVariant": "MOBILE_LITE",
+      "licensePolicy": "INTERNAL_TEST_ONLY_LICENSE_UNKNOWN",
+      "productionApproved": false,
+      "placement": {
+        "anchor": "side_companion",
+        "targetSizeMeters": 0.72,
+        "localOffsetMeters": {
+          "x": 0.78,
+          "y": 0.05,
+          "z": 0.48
+        },
+        "localEulerDegrees": {
+          "x": 0,
+          "y": -20,
+          "z": 0
+        },
+        "note": "Dragon sur le cote utilisateur, lisible, non place dans le dos."
+      },
+      "stats": {
+        "triangles": 4940,
+        "vertices": 7200,
+        "animations": 1,
+        "maxTexture": 512,
+        "sizeMB": 1.85
+      },
+      "mobileOptimization": {
+        "sourceBytes": 3203936,
+        "optimizedBytes": 2003072,
+        "savedBytes": 1200864,
+        "savedPct": 37.48,
+        "compression": "meshopt",
+        "textureMax": 512,
+        "simplify": false,
+        "note": "Optimized with glTF Transform for mobile runtime. Geometry was not simplified so wings silhouettes stay intact."
+      },
+      "appFragmentId": "prisme",
+      "aliases": [
+        "side_dragon",
+        "skin_side_dragon"
+      ]
+    },
+    {
+      "fragmentId": "FRAGMENT_16_ANIMAL_TEST",
+      "modelId": "MODEL_0255",
+      "usage": "shoulder_animal",
+      "file": "shoulder_animal/MODEL_0255_shoulder_animal_AR_READY_unity_ready.glb",
+      "sourceVerdict": "AR_READY",
+      "sourceVariant": "MOBILE_LITE",
+      "licensePolicy": "LICENSE_REVIEW_REQUIRED_BEFORE_PRODUCTION",
+      "productionApproved": false,
+      "placement": {
+        "anchor": "upper_shoulder",
+        "targetSizeMeters": 0.26,
+        "localOffsetMeters": {
+          "x": 0.26,
+          "y": 0.2,
+          "z": 0.12
+        },
+        "localEulerDegrees": {
+          "x": 0,
+          "y": 165,
+          "z": 0
+        },
+        "note": "Animal/papillon compagnon au-dessus de l'epaule."
+      },
+      "stats": {
+        "triangles": 70,
+        "vertices": 98,
+        "animations": 1,
+        "maxTexture": 512,
+        "sizeMB": 0.478
+      },
+      "mobileOptimization": {
+        "sourceBytes": 525420,
+        "optimizedBytes": 501476,
+        "savedBytes": 23944,
+        "savedPct": 4.56,
+        "compression": "meshopt",
+        "textureMax": 512,
+        "simplify": false,
+        "note": "Optimized with glTF Transform for mobile runtime. Geometry was not simplified so wings silhouettes stay intact."
+      },
+      "appFragmentId": "atome",
+      "aliases": [
+        "atome",
+        "skin_shoulder_butterfly"
+      ]
+    },
+    {
+      "fragmentId": "FRAGMENT_17_ROBOT_TEST",
+      "modelId": "MODEL_0518",
+      "usage": "shoulder_robot_or_mech",
+      "file": "shoulder_robot_or_mech/MODEL_0518_shoulder_robot_or_mech_AR_READY_unity_ready.glb",
+      "sourceVerdict": "AR_READY",
+      "sourceVariant": "MOBILE_LITE",
+      "licensePolicy": "INTERNAL_TEST_ONLY_LICENSE_UNKNOWN",
+      "productionApproved": false,
+      "placement": {
+        "anchor": "upper_shoulder",
+        "targetSizeMeters": 0.34,
+        "localOffsetMeters": {
+          "x": 0.28,
+          "y": 0.22,
+          "z": 0.1
+        },
+        "localEulerDegrees": {
+          "x": 0,
+          "y": 160,
+          "z": 0
+        },
+        "note": "Compagnon robot en haut de l'epaule; petite taille pour ne pas cacher le visage."
+      },
+      "stats": {
+        "triangles": 5299,
+        "vertices": 7279,
+        "animations": 1,
+        "maxTexture": 512,
+        "sizeMB": 1.07
+      },
+      "mobileOptimization": {
+        "sourceBytes": 1651656,
+        "optimizedBytes": 1147144,
+        "savedBytes": 504512,
+        "savedPct": 30.55,
+        "compression": "meshopt",
+        "textureMax": 512,
+        "simplify": false,
+        "note": "Optimized with glTF Transform for mobile runtime. Geometry was not simplified so wings silhouettes stay intact."
+      },
+      "appFragmentId": "forge",
+      "aliases": [
+        "shoulder_robot",
+        "skin_shoulder_robot"
+      ]
+    },
+    {
+      "fragmentId": "FRAGMENT_18_ORB_TEST",
+      "modelId": "MODEL_0104",
+      "usage": "magic_object",
+      "file": "magic_object/MODEL_0104_magic_object_AR_READY_unity_ready.glb",
+      "sourceVerdict": "AR_READY",
+      "sourceVariant": "MOBILE_LITE",
+      "licensePolicy": "INTERNAL_TEST_ONLY_LICENSE_UNKNOWN",
+      "productionApproved": false,
+      "placement": {
+        "anchor": "front_or_shoulder_secondary",
+        "targetSizeMeters": 0.32,
+        "localOffsetMeters": {
+          "x": -0.25,
+          "y": 0.16,
+          "z": 0.28
+        },
+        "localEulerDegrees": {
+          "x": 0,
+          "y": 180,
+          "z": 0
+        },
+        "note": "Objet discret et lisible en AR; peut servir d'effet secondaire."
+      },
+      "stats": {
+        "triangles": 1950,
+        "vertices": 1022,
+        "animations": 1,
+        "maxTexture": 512,
+        "sizeMB": 0.055
+      },
+      "mobileOptimization": {
+        "sourceBytes": 82344,
+        "optimizedBytes": 58192,
+        "savedBytes": 24152,
+        "savedPct": 29.33,
+        "compression": "meshopt",
+        "textureMax": 512,
+        "simplify": false,
+        "note": "Optimized with glTF Transform for mobile runtime. Geometry was not simplified so wings silhouettes stay intact."
+      },
+      "appFragmentId": "atome",
+      "aliases": [
+        "orb",
+        "skin_fragment_orb"
+      ]
+    }
+  ]
+}

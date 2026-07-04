@@ -52,9 +52,8 @@ export const useAccountProgression = (lang?: Lang) => {
 
     setRemoteStatus("error");
     setRemoteError(
-      "error" in result && result.error
-        ? result.error.message
-        : "Progression distante indisponible",
+      ("error" in result && result.error ? result.error.message : null) ||
+        "Progression distante indisponible",
     );
     return result;
   }, [auth.configured, authUserId, mergeRemoteSnapshot]);

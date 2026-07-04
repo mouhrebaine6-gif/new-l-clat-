@@ -1,0 +1,442 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * L'Éclat — design tokens (rituel laiton, sombre minéral).
+ * Tailwind v4 : on déclare les couleurs directement dans @theme.
+ * On garde aussi les variables HSL brutes (--laiton, --voile, …) pour les
+ * composants legacy qui utilisent `hsl(var(--laiton) / 0.4)`.
+ *
+ * V2 : ajout des fondations étendues (--color-bg-*), 8 nuances de laiton,
+ * 5 paliers de voile, échelles typo Playfair / Source Serif 4 / JetBrains Mono.
+ * Aucun token historique n'est supprimé → rétro-compatible.
+ */
+
+@theme {
+  /* === Radius === */
+  --radius: 1rem;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+
+  /* === Fondations === */
+  --color-bg-deep: hsl(30 18% 2.5%);
+  --color-bg-base: hsl(30 14% 4%);
+  --color-bg-elevated: hsl(28 12% 6.5%);
+  --color-bg-raised: hsl(30 10% 9%);
+
+  /* === Texte / Voile === */
+  --color-voile-pur: hsl(40 35% 94%);
+  --color-voile: hsl(40 25% 88%);
+  --color-voile-dim: hsl(40 18% 62%);
+  --color-voile-ombre: hsl(40 10% 38%);
+  --color-voile-fantome: hsl(40 8% 22%);
+
+  /* === Laiton (8 nuances) === */
+  --color-laiton-flash: hsl(38 80% 78%);
+  --color-laiton-100: hsl(36 60% 70%);
+  --color-laiton-300: hsl(36 50% 60%);
+  --color-laiton-500: hsl(36 38% 54%);
+  --color-laiton-700: hsl(36 28% 40%);
+  --color-laiton-900: hsl(36 18% 22%);
+  --color-laiton-ember: hsl(22 45% 38%);
+  --color-ember-deep: hsl(10 55% 30%);
+
+  /* === Alias sémantiques shadcn-like === */
+  --color-background: var(--color-bg-base);
+  --color-foreground: var(--color-voile);
+  --color-card: var(--color-bg-elevated);
+  --color-card-foreground: var(--color-voile);
+  --color-popover: var(--color-bg-raised);
+  --color-popover-foreground: var(--color-voile);
+  --color-primary: var(--color-laiton-500);
+  --color-primary-foreground: var(--color-bg-deep);
+  --color-secondary: hsl(30 8% 14%);
+  --color-secondary-foreground: var(--color-voile);
+  --color-muted: hsl(30 6% 12%);
+  --color-muted-foreground: var(--color-voile-dim);
+  --color-accent: var(--color-laiton-500);
+  --color-accent-foreground: var(--color-bg-deep);
+  --color-destructive: hsl(8 55% 42%);
+  --color-destructive-foreground: var(--color-voile-pur);
+  --color-border: hsl(36 12% 18%);
+  --color-input: hsl(36 12% 18%);
+  --color-ring: var(--color-laiton-500);
+
+  /* === Sémantique status === */
+  --color-success: hsl(140 30% 45%);
+  --color-warning: hsl(36 60% 55%);
+  --color-info: hsl(200 25% 55%);
+
+  /* === Alias rétro-compat (utilisés par l'existant) === */
+  --color-ember: hsl(12 55% 32%);
+  --color-laiton: hsl(36 38% 54%);
+  --color-laiton-dim: hsl(36 22% 38%);
+  --color-noir-profond: hsl(30 14% 3%);
+
+  /* === Typo === */
+  --font-display: "Playfair Display", "Source Serif 4", serif;
+  --font-serif: "Source Serif 4", "Noto Naskh Arabic", Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-sans: "Source Serif 4", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  /* === Échelle === */
+  --text-hero: 5.25rem;
+  --text-display: 3.75rem;
+  --text-h1: 2.5rem;
+  --text-h2: 1.875rem;
+  --text-h3: 1.375rem;
+  --text-lead: 1.25rem;
+  --text-body: 1rem;
+  --text-small: 0.875rem;
+  --text-caption: 0.75rem;
+  --text-mono-tag: 0.625rem;
+  --text-mono-num: 1.75rem;
+
+  --leading-hero: 0.88;
+  --leading-display: 0.92;
+  --leading-tight: 1.15;
+  --leading-snug: 1.3;
+  --leading-normal: 1.55;
+
+  --tracking-hero: -0.04em;
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-rituel: 0.18em;
+}
+
+:root {
+  /* Tokens HSL bruts — rétro-compat legacy (`hsl(var(--laiton) / 0.4)`) */
+  --laiton: 36 38% 54%;
+  --laiton-dim: 36 22% 38%;
+  --voile: 40 25% 88%;
+  --voile-dim: 40 18% 62%;
+  --ember: 12 55% 32%;
+  --noir-profond: 30 14% 3%;
+  --background: 30 14% 4%;
+  --foreground: 40 25% 88%;
+  --border: 36 12% 18%;
+
+  /* === Surfaces translucides (glassmorphism) === */
+  --glass-1: hsla(40 25% 88% / 0.04);
+  --glass-2: hsla(30 14% 6% / 0.72);
+  --glass-3: hsla(40 25% 88% / 0.07);
+  --glass-tint: hsla(36 38% 54% / 0.06);
+  --border-hairline: hsla(40 25% 88% / 0.08);
+  --border-soft: hsla(40 25% 88% / 0.12);
+  --border-laiton: hsla(36 38% 54% / 0.35);
+
+  /* === Ombres === */
+  --shadow-1: 0 1px 0 hsla(40 25% 88% / 0.03) inset, 0 1px 2px hsla(30 14% 3% / 0.6);
+  --shadow-2: 0 1px 0 hsla(40 25% 88% / 0.04) inset,
+    0 8px 24px -12px hsla(30 14% 3% / 0.7);
+  --shadow-3: 0 1px 0 hsla(40 25% 88% / 0.05) inset,
+    0 24px 48px -24px hsla(30 14% 3% / 0.8);
+  --halo-laiton: 0 0 0 1px hsla(36 38% 54% / 0.4),
+    0 0 32px -4px hsla(36 38% 54% / 0.35);
+  --halo-ember: 0 0 0 1px hsla(12 55% 32% / 0.5),
+    0 0 28px -6px hsla(12 55% 32% / 0.4);
+  --couture-shadow: 0 1px 0 hsla(40 25% 88% / 0.06),
+    0 0 0 1px hsla(36 38% 54% / 0.12);
+
+  /* === Easing signatures === */
+  --ease-seuil: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-fil: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-tactile: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-couture: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* === Durées === */
+  --dur-instant: 0.08s;
+  --dur-quick: 0.18s;
+  --dur-base: 0.32s;
+  --dur-medium: 0.55s;
+  --dur-slow: 0.95s;
+  --dur-ritual: 1.6s;
+  --dur-veil: 2.4s;
+  --dur-eternal: 12s;
+
+  /* === Safe areas === */
+  --safe-top: env(safe-area-inset-top, 0);
+  --safe-bottom: env(safe-area-inset-bottom, 0);
+}
+
+/* === Glassmorphism 3 niveaux === */
+.glass-1 {
+  background: var(--glass-1);
+  -webkit-backdrop-filter: saturate(160%) blur(20px);
+  backdrop-filter: saturate(160%) blur(20px);
+  border-bottom: 1px solid var(--border-hairline);
+  box-shadow: var(--shadow-1);
+}
+.glass-2 {
+  background: var(--glass-2);
+  -webkit-backdrop-filter: saturate(180%) blur(28px);
+  backdrop-filter: saturate(180%) blur(28px);
+  border-top: 1px solid var(--border-hairline);
+  box-shadow: var(--shadow-2);
+}
+.glass-3 {
+  background: var(--glass-3);
+  -webkit-backdrop-filter: saturate(200%) blur(36px);
+  backdrop-filter: saturate(200%) blur(36px);
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-3);
+}
+.glass-3--laiton {
+  background: linear-gradient(
+    180deg,
+    hsla(36 38% 54% / 0.08),
+    hsla(30 14% 6% / 0.55)
+  );
+  border: 1px solid var(--border-laiton);
+  box-shadow: var(--halo-laiton);
+}
+
+/* === Effets signature === */
+.voile-dust {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 20% 30%, hsla(40 25% 88% / 0.04) 0, transparent 40%),
+    radial-gradient(circle at 80% 70%, hsla(36 38% 54% / 0.05) 0, transparent 45%),
+    radial-gradient(circle at 60% 20%, hsla(40 25% 88% / 0.03) 0, transparent 35%);
+  mix-blend-mode: screen;
+  animation: dust-drift 18s linear infinite;
+}
+.halo-laiton {
+  position: relative;
+  isolation: isolate;
+}
+.halo-laiton::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle at 50% 50%,
+    hsla(36 60% 70% / 0.45),
+    hsla(36 38% 54% / 0.15) 40%,
+    transparent 70%
+  );
+  filter: blur(14px);
+  z-index: -1;
+  animation: halo-respire 3.6s var(--ease-seuil) infinite;
+}
+.couture {
+  border: 0;
+  background:
+    linear-gradient(var(--color-card), var(--color-card)) padding-box,
+    repeating-linear-gradient(
+      90deg,
+      hsla(36 38% 54% / 0.5) 0 4px,
+      transparent 4px 8px
+    ) border-box;
+  border: 1px dashed transparent;
+  border-radius: var(--radius-lg);
+}
+.couture-tight {
+  background:
+    linear-gradient(var(--color-card), var(--color-card)) padding-box,
+    repeating-linear-gradient(
+      90deg,
+      hsla(36 38% 54% / 0.5) 0 2px,
+      transparent 2px 4px
+    ) border-box;
+}
+.lumen {
+  filter: drop-shadow(0 0 6px hsla(36 60% 70% / 0.7))
+    drop-shadow(0 0 16px hsla(36 38% 54% / 0.4));
+}
+
+@keyframes halo-respire {
+  0%,
+  100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+@keyframes dust-drift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-2%, 1%, 0) scale(1.05);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+@keyframes filament-scan {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* === Reduce motion (filet de sécurité global) === */
+html[data-reduce-motion="1"] *,
+html[data-reduce-motion="1"] *::before,
+html[data-reduce-motion="1"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* === Glass off dans Unity WebView (déjà en place, on complète) === */
+html[data-unity-webview="1"] .glass-1,
+html[data-unity-webview="1"] .glass-2,
+html[data-unity-webview="1"] .glass-3 {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  background: var(--color-bg-elevated) !important;
+}
+html[data-unity-webview="1"] .halo-laiton::before {
+  animation: none;
+  opacity: 0.85;
+}
+html[data-unity-webview="1"] .voile-dust {
+  animation: none;
+}
+
+* {
+  border-color: var(--color-border);
+}
+
+html,
+body,
+#root {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  min-height: 100%;
+  min-height: 100dvh;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overscroll-behavior: none;
+  overflow-x: hidden;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, hsl(36 38% 54% / 0.06), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 50% 110%, hsl(12 55% 32% / 0.05), transparent 60%);
+  background-attachment: fixed;
+}
+
+html[data-lang="ar"] body {
+  direction: rtl;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+button,
+nav,
+header,
+[role="button"] {
+  -webkit-user-select: none;
+  user-select: none;
+}
+input,
+textarea,
+p,
+h1,
+h2,
+h3,
+h4,
+li {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.9 0 0 0 0 0.85 0 0 0 0 0.7 0 0 0 0.6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  mix-blend-mode: overlay;
+}
+
+html[data-unity-webview="1"] {
+  scroll-behavior: auto;
+}
+
+html[data-unity-webview="1"] body {
+  text-rendering: optimizeSpeed;
+  background-attachment: scroll;
+}
+
+html[data-unity-webview="1"] body::before {
+  display: none;
+}
+
+html[data-unity-webview="1"] .backdrop-blur,
+html[data-unity-webview="1"] .backdrop-blur-md,
+html[data-unity-webview="1"] .backdrop-blur-xl {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+[data-sonner-toast] {
+  background: hsl(var(--noir-profond) / 0.96) !important;
+  border: 1px solid hsl(var(--laiton) / 0.35) !important;
+  color: hsl(var(--voile)) !important;
+  box-shadow: 0 18px 45px -28px hsl(var(--laiton) / 0.55) !important;
+}
+
+[data-sonner-toast] [data-description] {
+  color: hsl(var(--voile-dim)) !important;
+}
+
+/* ── Finitions taste (mobile premium) ────────────────────────────── */
+/* Pas de zoom de police iOS, pas de surbrillance bleue au tap. */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+/* Scrollbars discrètes : le contenu paraît infini, pas « enfermé ». */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--laiton) / 0.25) transparent;
+}
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+*::-webkit-scrollbar-thumb {
+  background: hsl(var(--laiton) / 0.22);
+  border-radius: 999px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+/* Utilitaire : masquer la scrollbar (carrousels, rangées horizontales). */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}

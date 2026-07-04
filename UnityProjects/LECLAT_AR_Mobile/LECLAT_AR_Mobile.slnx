@@ -1,0 +1,4 @@
+﻿<Solution>
+  <Project Path="Leclat.AR.csproj" />
+  <Project Path="Assembly-CSharp-Editor.csproj" />
+</Solution>

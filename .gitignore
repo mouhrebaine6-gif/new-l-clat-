@@ -2,3 +2,27 @@
 .mcp.json
 **/.mcp.json
 **/UserSettings/mcp.json
+
+# Secrets applicatifs
+.env
+.env.*
+!.env.example
+*.keystore
+*.jks
+google-services.json
+
+# Artefacts de build / cache / archives (racine du repo) — pas de code source
+/Builds/
+/Cache/
+*.zip
+
+# Bibliothèque de travail de sourcing 3D (curation/staging, ~2 Go) — PAS le produit
+# livré : l'app Unity utilise sa propre copie dans
+# UnityProjects/LECLAT_AR_Mobile/Assets/StreamingAssets/LECLAT/Models/, déjà suivie.
+# Contient en plus des assets à licence inconnue/quarantaine et des chemins
+# RAW_COPY imbriqués qui dépassent la longueur max Windows (git add plantait).
+/ModelLibrary_Curated/
+
+# Paquets Unity Package Manager mis en cache (téléchargés automatiquement par
+# Unity, pas du code source) — dépassent la limite de taille de fichier GitHub.
+UnityProjects/LECLAT_AR_Mobile/Packages/*.tgz

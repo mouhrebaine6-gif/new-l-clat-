@@ -1,0 +1,5 @@
+<!-- Préserve ZXing.Net au build IL2CPP (managed stripping) — le décodeur QR
+     l'utilise par réflexion, donc le linker ne doit pas la supprimer. -->
+<linker>
+  <assembly fullname="zxing" preserve="all" />
+</linker>

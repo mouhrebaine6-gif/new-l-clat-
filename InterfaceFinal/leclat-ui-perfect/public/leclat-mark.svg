@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" role="img" aria-label="L'Éclat">
+  <g stroke="#cfc6b3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M15 27 V16 Q15 12 19 12 H29 Q33 12 33 16 V27"/>
+    <path d="M14 27 H34"/>
+    <path d="M20 15.5 V20.5"/>
+    <path d="M24 14.5 V20.5"/>
+    <path d="M28 15.5 V20.5"/>
+    <path d="M22 27 L15 40"/>
+    <path d="M26 27 L31 37 q1.8 1.4 3.4 0.2"/>
+  </g>
+  <path d="M37.5 8.5 L13.5 41.5" stroke="#efe7d4" stroke-width="1.9" stroke-linecap="round"/>
+</svg>

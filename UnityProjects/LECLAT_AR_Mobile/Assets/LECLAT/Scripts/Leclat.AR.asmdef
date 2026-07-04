@@ -1,0 +1,22 @@
+{
+    "name": "Leclat.AR",
+    "rootNamespace": "Leclat.AR",
+    "references": [
+        "glTFast",
+        "Unity.InputSystem",
+        "UnityEngine.UI",
+        "unity-webview"
+    ],
+    "includePlatforms": [
+        "Editor",
+        "Android",
+        "iOS"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

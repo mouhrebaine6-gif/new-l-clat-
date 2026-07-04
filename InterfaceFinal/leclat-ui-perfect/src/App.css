@@ -1,0 +1,48 @@
+/* L'Éclat — overrides globaux pour WebView mobile (Unity Android/iOS).
+ * Le design system principal vit dans src/index.css. Ce fichier ne définit que
+ * des optimisations tactiles et anti-flash sûres pour WKWebView/Android WebView.
+ */
+
+#root {
+  width: 100%;
+  min-height: 100dvh;
+}
+
+/* Touch — pas de halo bleu, pas de double-tap zoom, scroll fluide */
+* {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+html,
+body {
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Empêche la sélection accidentelle dans les zones rituelles tactiles */
+button,
+nav,
+header,
+[role="button"] {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Image stables (pas de menu long-press, pas de drag) */
+img {
+  -webkit-touch-callout: none;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+/* Réduction de motion respectée par Framer Motion via useReducedMotion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

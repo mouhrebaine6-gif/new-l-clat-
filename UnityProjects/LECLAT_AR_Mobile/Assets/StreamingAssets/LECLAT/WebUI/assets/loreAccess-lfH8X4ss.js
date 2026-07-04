@@ -1,0 +1,1 @@
+import{n as e}from"./quiz-DBpe-JFR.js";var t=e,n=e=>t.every(t=>(e[t]||0)>=40),r=e=>t.filter(t=>(e[t]||0)<40).length;export{n,r as t};

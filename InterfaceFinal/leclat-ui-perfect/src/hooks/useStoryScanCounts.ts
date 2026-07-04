@@ -1,64 +1,63 @@
 import { useEffect, useMemo, useState } from "react";
-import { loadRemoteFragmentScanCounts } from "@/lib/progressionApi";
+import { getProgression, hasSupabaseScanBackend } from "@/lib/supabaseScan";
 import { usePorteur } from "@/lib/porteur";
-import { useSupabaseSession } from "@/hooks/useSupabaseSession";
 
 type StoryScanStatus = "local" | "loading" | "synced" | "error";
 
-const mergeCounts = (localCounts: Record<string, number>, remoteCounts: Record<string, number>) => {
-  const next: Record<string, number> = { ...localCounts };
-  for (const [fragmentId, remoteCount] of Object.entries(remoteCounts)) {
-    next[fragmentId] = Math.max(next[fragmentId] || 0, remoteCount);
+/**
+ * Décision produit (2026-07-03) : les paliers d'histoire suivent la
+ * Constitution des scans — get_progression renvoie, pour chaque t-shirt
+ * POSSÉDÉ par ce device, le nombre de visiteurs qui l'ont scanné. C'est ce
+ * compteur serveur qui ouvre les paliers 1/20/40, pas le compteur local.
+ * Le compteur local du porteur ne sert que sans backend (dev/preview).
+ */
+const CACHE_KEY = "leclat.story_counts.v2";
+
+const readCache = (): Record<string, number> => {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(CACHE_KEY) || "{}");
+    return parsed && typeof parsed === "object" && !Array.isArray(parsed)
+      ? (parsed as Record<string, number>)
+      : {};
+  } catch {
+    return {};
   }
-  return next;
 };
 
 export const useStoryScanCounts = () => {
   const { state } = usePorteur();
-  const auth = useSupabaseSession();
-  const [remoteCounts, setRemoteCounts] = useState<Record<string, number>>({});
-  const [status, setStatus] = useState<StoryScanStatus>(auth.configured ? "loading" : "local");
+  const serverMode = hasSupabaseScanBackend();
+  const [serverCounts, setServerCounts] = useState<Record<string, number>>(readCache);
+  const [status, setStatus] = useState<StoryScanStatus>(serverMode ? "loading" : "local");
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!serverMode) return;
     let cancelled = false;
 
     const load = async () => {
-      if (!auth.configured || auth.status === "disabled" || auth.status === "guest") {
-        setRemoteCounts({});
-        setStatus("local");
-        setError(null);
-        return;
-      }
-
-      if (auth.status === "loading") {
-        setStatus("loading");
-        return;
-      }
-
-      if (auth.status === "error") {
-        setRemoteCounts({});
-        setStatus("error");
-        setError(auth.error || "Progression distante indisponible");
-        return;
-      }
-
       setStatus("loading");
-      const result = await loadRemoteFragmentScanCounts();
+      const entries = await getProgression();
       if (cancelled) return;
 
-      if (result.ok) {
-        setRemoteCounts(result.data);
-        setStatus("synced");
-        setError(null);
-      } else if ("skipped" in result && result.skipped) {
-        setRemoteCounts({});
-        setStatus("local");
-        setError(null);
-      } else {
-        setRemoteCounts({});
+      if (entries === null) {
+        // Serveur injoignable : on garde le dernier état synchronisé (cache).
         setStatus("error");
-        setError("error" in result && result.error ? result.error.message : "Sync unavailable");
+        setError("Progression serveur indisponible");
+        return;
+      }
+
+      const counts: Record<string, number> = {};
+      for (const entry of entries) {
+        counts[entry.fragment] = Math.max(0, Number(entry.scan_count) || 0);
+      }
+      setServerCounts(counts);
+      setStatus("synced");
+      setError(null);
+      try {
+        localStorage.setItem(CACHE_KEY, JSON.stringify(counts));
+      } catch {
+        // Cache best-effort — l'état en mémoire suffit pour la session.
       }
     };
 
@@ -67,11 +66,11 @@ export const useStoryScanCounts = () => {
     return () => {
       cancelled = true;
     };
-  }, [auth.configured, auth.error, auth.status, auth.user?.id]);
+  }, [serverMode]);
 
   const fragmentScanCounts = useMemo(
-    () => mergeCounts(state.fragmentScanCounts, remoteCounts),
-    [remoteCounts, state.fragmentScanCounts],
+    () => (serverMode ? serverCounts : state.fragmentScanCounts),
+    [serverMode, serverCounts, state.fragmentScanCounts],
   );
 
   return {

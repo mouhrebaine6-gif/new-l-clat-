@@ -124,9 +124,13 @@ namespace Leclat.AR
 
         private void CompleteScan(LeclatQrPayload payload)
         {
-            LeclatSecureScanStore.Save(payload.FragmentId, payload.Token);
+            // On stocke le payload CANONIQUE complet ("leclat:<fragment>:<token>") :
+            // c'est la forme attendue par claim_tshirt/scan_tshirt côté serveur —
+            // la partie token seule renverrait toujours unknown_token.
+            LeclatSecureScanStore.Save(
+                payload.FragmentId,
+                string.IsNullOrEmpty(payload.Token) ? string.Empty : payload.CanonicalPayload);
             LeclatOwnedFragments.Add(payload.FragmentId); // ce téléphone devient OWNER de ce fragment
-            _ = LeclatSecureScanStore.BuildServerRequest(payload.FragmentId, payload.Token);
             StopCamera();
             DestroyUi();
             SetVuforiaEnabled(true);
@@ -298,6 +302,33 @@ namespace Leclat.AR
         private void OnDestroy()
         {
             StopCamera();
+            DestroyUi();
+        }
+
+        private void OnApplicationPause(bool paused)
+        {
+            // Appel entrant / mise en veille pendant le scan QR : la WebCamTexture
+            // peut geler ou perdre l'accès caméra au retour. On coupe proprement la
+            // coroutine + la caméra en pause, et on relance le scan au retour si le
+            // téléphone ne possède pas encore de fragment.
+            if (!isActiveAndEnabled)
+            {
+                return;
+            }
+
+            if (paused)
+            {
+                if (scanRoutine != null)
+                {
+                    StopCoroutine(scanRoutine);
+                    scanRoutine = null;
+                }
+                StopCamera();
+            }
+            else if (scanRoutine == null && LeclatOwnedFragments.Count == 0)
+            {
+                BeginIfNeeded();
+            }
         }
     }
 }

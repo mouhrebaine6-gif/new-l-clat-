@@ -1,0 +1,1 @@
+var e={tap:8,select:12,success:[10,40,20],warn:[30,30,30],rituel:[12,60,12,60,24]},t=(t=`tap`)=>{try{if(typeof navigator>`u`||typeof navigator.vibrate!=`function`)return;navigator.vibrate(e[t])}catch{}};export{t};

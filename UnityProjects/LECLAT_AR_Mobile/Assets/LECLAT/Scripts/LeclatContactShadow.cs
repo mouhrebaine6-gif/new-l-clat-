@@ -33,6 +33,14 @@ namespace Leclat.AR
                 Destroy(instanceMaterial);
                 instanceMaterial = null;
             }
+
+            // Libere les ressources statiques quand la derniere instance disparait
+            // (ex. rechargement de scene) pour eviter la fuite cross-scene.
+            if (FindObjectsByType<LeclatContactShadow>().Length == 0)
+            {
+                if (sharedTexture != null) { Destroy(sharedTexture); sharedTexture = null; }
+                if (sharedMesh != null) { Destroy(sharedMesh); sharedMesh = null; }
+            }
         }
 
         private void EnsureQuad()

@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "eclat-dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "D:/LECLAT/InterfaceFinal/leclat-ui-perfect", "run", "dev"],
+      "port": 4177
+    }
+  ]
+}
