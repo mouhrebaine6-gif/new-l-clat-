@@ -119,7 +119,7 @@ export const AppLayout = ({ children }: { children: ReactNode }) => {
 
       {/* Header glass-1 */}
       <header className="sticky top-0 z-30 glass-1" style={{ paddingTop: "var(--safe-top)" }}>
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-3">
           <div className="flex min-w-0 items-center gap-1 sm:gap-2">
             <VoileMenu />
             <NavLink
@@ -128,7 +128,7 @@ export const AppLayout = ({ children }: { children: ReactNode }) => {
               aria-label="L'Éclat"
             >
               <Wordmark
-                size={18}
+                size={15}
                 className="shrink-0 transition group-hover:[text-shadow:0_0_28px_hsl(var(--laiton)/0.35)]"
               />
               <span className="font-mono-eclat text-[8px] tracking-rituel text-voile-dim/50 uppercase hidden sm:block border-l border-border/60 ps-3">
@@ -164,7 +164,10 @@ export const AppLayout = ({ children }: { children: ReactNode }) => {
             >
               <span className="w-1.5 h-1.5 rounded-full bg-laiton anim-respire shrink-0" />
               <span className="truncate">
-                {state.profile.pseudo} · {toRoman(state.profile.level)}
+                {/* Petit écran : la pastille + le niveau suffisent — le pseudo
+                    reprenait la place du logo et provoquait la collision. */}
+                <span className="hidden min-[440px]:inline">{state.profile.pseudo} · </span>
+                {toRoman(state.profile.level)}
               </span>
             </NavLink>
           </div>

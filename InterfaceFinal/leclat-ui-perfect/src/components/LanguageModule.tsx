@@ -14,7 +14,7 @@ export const LanguageSwitch = ({ compact = false }: { compact?: boolean }) => {
   return (
     <div
       className={`inline-grid shrink-0 grid-cols-3 overflow-hidden border border-border/60 bg-noir-profond/80 ${
-        compact ? "h-7 w-[78px]" : ""
+        compact ? "h-7 w-[72px]" : ""
       }`}
       aria-label={tr(copy.eyebrow)}
     >
