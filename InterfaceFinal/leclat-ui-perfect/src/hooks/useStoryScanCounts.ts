@@ -7,6 +7,8 @@ import {
   type ProgressionEntry,
 } from "@/lib/supabaseScan";
 import { useSupabaseSession } from "@/hooks/useSupabaseSession";
+import { DEMO_MAX } from "@/lib/demoMax";
+import { LORE_UNLOCK_THRESHOLD, STORY_FRAGMENT_IDS } from "@/lib/loreAccess";
 import { usePorteur } from "@/lib/porteur";
 
 type StoryScanStatus = "local" | "loading" | "synced" | "error";
@@ -41,11 +43,13 @@ export const useStoryScanCounts = () => {
   const serverMode = hasSupabaseScanBackend();
   const userId = auth.status === "signed-in" ? auth.user?.id : undefined;
   const [serverCounts, setServerCounts] = useState<Record<string, number>>(readCache);
-  const [status, setStatus] = useState<StoryScanStatus>(serverMode ? "loading" : "local");
+  const [status, setStatus] = useState<StoryScanStatus>(
+    DEMO_MAX ? "synced" : serverMode ? "loading" : "local",
+  );
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!serverMode) return;
+    if (!serverMode || DEMO_MAX) return;
     let cancelled = false;
 
     const load = async () => {
@@ -88,7 +92,14 @@ export const useStoryScanCounts = () => {
   }, [serverMode, userId]);
 
   const fragmentScanCounts = useMemo(
-    () => (serverMode ? serverCounts : state.fragmentScanCounts),
+    () =>
+      DEMO_MAX
+        ? // Mode DÉMO MAX : histoire complète — chaque fragment au palier profond (40).
+          // Calcul INLINE dans la branche démo → totalement éliminé d'un build prod.
+          Object.fromEntries(STORY_FRAGMENT_IDS.map((id) => [id, LORE_UNLOCK_THRESHOLD]))
+        : serverMode
+          ? serverCounts
+          : state.fragmentScanCounts,
     [serverMode, serverCounts, state.fragmentScanCounts],
   );
 

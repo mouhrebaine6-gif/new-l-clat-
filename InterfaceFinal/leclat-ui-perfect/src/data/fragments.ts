@@ -1,4 +1,5 @@
 import { type Lang } from "@/lib/i18n";
+import { DEMO_MAX } from "@/lib/demoMax";
 import eveilFlat from "@/assets/tshirts/eveil-flat.jpg";
 import eveilDetail from "@/assets/tshirts/eveil-detail.jpg";
 import eveilWorn from "@/assets/tshirts/eveil-worn.jpg";
@@ -43,7 +44,7 @@ export type Fragment = FragmentCopy & {
   i18n?: Partial<Record<Exclude<Lang, "fr">, Partial<FragmentCopy>>>;
 };
 
-export const fragments: Fragment[] = [
+const baseFragments: Fragment[] = [
   {
     id: "eveil",
     number: "01",
@@ -522,6 +523,11 @@ export const fragments: Fragment[] = [
     },
   },
 ];
+
+// Mode DÉMO MAX (build interne) : les 10 fragments visibles et déverrouillés.
+export const fragments: Fragment[] = DEMO_MAX
+  ? baseFragments.map((f) => ({ ...f, unlocked: true }))
+  : baseFragments;
 
 export const localizeFragment = <T extends Fragment | undefined | null>(
   fragment: T,

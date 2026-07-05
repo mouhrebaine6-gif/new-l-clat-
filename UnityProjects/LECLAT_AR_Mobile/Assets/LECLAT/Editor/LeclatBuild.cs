@@ -48,10 +48,31 @@ namespace Leclat.AR.Editor
             BuildAndroid(appBundle: true, development: false, defaultFileName: "LECLAT_AR.aab", disableBurstAot: true);
         }
 
-        private static void BuildAndroid(bool appBundle, bool development, string defaultFileName, bool disableBurstAot = false)
+        /// <summary>
+        /// APK de DÉMONSTRATION (validation sur téléphone). IL2CPP + universel
+        /// (ARM64 | ARMv7) → s'installe sur TOUT appareil Android, 32 ou 64 bits.
+        /// Build « release » signé (keystore fourni via env) + codegen taille +
+        /// stripping High pour tenir sur une machine 8 Go. Sortie par défaut :
+        /// le Bureau (LECLAT_AR_DEMO_MAX.apk). Le contenu MAX (histoire complète,
+        /// fragments et modèles 3D déverrouillés) est porté par la WebUI embarquée.
+        ///   Unity -batchmode -quit -projectPath . -buildTarget Android
+        ///     -executeMethod Leclat.AR.Editor.LeclatBuild.Demo
+        ///     -arch universal -output "<Bureau>/LECLAT_AR_DEMO_MAX.apk" -logFile build-demo.log
+        /// </summary>
+        public static void Demo()
+        {
+            BuildAndroid(
+                appBundle: false,
+                development: false,
+                defaultFileName: "LECLAT_AR_DEMO_MAX.apk",
+                arch: ParseArch(GetArg("-arch") ?? Environment.GetEnvironmentVariable("LECLAT_ARCH") ?? "universal"),
+                sizeOptimized: true);
+        }
+
+        private static void BuildAndroid(bool appBundle, bool development, string defaultFileName, bool disableBurstAot = false, AndroidArchitecture? arch = null, bool sizeOptimized = false)
         {
             Directory.CreateDirectory(DefaultOutDir);
-            ConfigureAndroidPlayerSettings();
+            ConfigureAndroidPlayerSettings(arch, sizeOptimized);
             ConfigureSigningFromArgsOrEnvironment();
 
             EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Android, BuildTarget.Android);
@@ -127,15 +148,25 @@ namespace Leclat.AR.Editor
             return null;
         }
 
-        private static void ConfigureAndroidPlayerSettings()
+        private static void ConfigureAndroidPlayerSettings(AndroidArchitecture? archOverride = null, bool sizeOptimized = false)
         {
             PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.Android, BundleId);
             PlayerSettings.SetScriptingBackend(NamedBuildTarget.Android, ScriptingImplementation.IL2CPP);
-            PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64;
-            PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel25;
+            PlayerSettings.Android.targetArchitectures = archOverride ?? AndroidArchitecture.ARM64;
+            // Vuforia Engine 11.x impose Android 10.0 (API 29) au minimum.
+            PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel29;
             PlayerSettings.Android.targetSdkVersion = ParseTargetApi(GetArg("-targetApi") ?? "35");
             PlayerSettings.SetGraphicsAPIs(BuildTarget.Android, new[] { GraphicsDeviceType.OpenGLES3 });
             PlayerSettings.SetUseDefaultGraphicsAPIs(BuildTarget.Android, false);
+            if (sizeOptimized)
+            {
+                // 8 Go de RAM : réduire le volume de C++ généré par IL2CPP (pic mémoire clang)
+                // et le poids de l'APK. OptimizeSize est un choix de CODEGEN (code plus compact,
+                // à peine plus lent) — il NE supprime PAS de types managés, donc la réflexion
+                // (décodage QR ZXing, chargement glTF) reste intacte. On NE force PAS le managed
+                // stripping (on garde le défaut projet connu-bon) pour ne rien casser au runtime.
+                PlayerSettings.SetIl2CppCodeGeneration(NamedBuildTarget.Android, UnityEditor.Build.Il2CppCodeGeneration.OptimizeSize);
+            }
 
             var versionName = GetArg("-versionName");
             if (!string.IsNullOrWhiteSpace(versionName))
@@ -144,6 +175,22 @@ namespace Leclat.AR.Editor
             var versionCode = GetArg("-versionCode");
             if (int.TryParse(versionCode, out var parsedVersionCode) && parsedVersionCode > 0)
                 PlayerSettings.Android.bundleVersionCode = parsedVersionCode;
+        }
+
+        private static AndroidArchitecture ParseArch(string value)
+        {
+            switch ((value ?? "").Trim().ToLowerInvariant())
+            {
+                case "universal":
+                case "all":
+                case "both":
+                    return AndroidArchitecture.ARM64 | AndroidArchitecture.ARMv7;
+                case "armv7":
+                case "arm32":
+                    return AndroidArchitecture.ARMv7;
+                default:
+                    return AndroidArchitecture.ARM64;
+            }
         }
 
         private static AndroidSdkVersions ParseTargetApi(string value)

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { fragments } from "@/data/fragments";
+import { DEMO_LEVEL, DEMO_MAX } from "@/lib/demoMax";
 
 export type AppEventType =
   | "garment_scanned"
@@ -470,14 +471,14 @@ export const QUIZ_BANK: QuizQuestion[] = [
 ];
 
 const createDefaultState = (): ProgressionState => {
-  const level = levelFromXp(0);
+  const level = DEMO_MAX ? DEMO_LEVEL : levelFromXp(0);
   return {
     version: 1,
     profile: {
       mode: "guest",
       pseudo: "Porteur",
       level,
-      xpTotal: 0,
+      xpTotal: DEMO_MAX ? xpForLevel(DEMO_LEVEL) : 0,
       coins: 0,
       lang: "fr",
       createdAt: now(),
@@ -500,7 +501,7 @@ const normalizeState = (value: unknown): ProgressionState => {
   if (!value || typeof value !== "object") return base;
   const parsed = value as Partial<ProgressionState>;
   const xpTotal = Math.max(0, Number(parsed.profile?.xpTotal ?? base.profile.xpTotal));
-  const level = levelFromXp(xpTotal);
+  const level = DEMO_MAX ? Math.max(DEMO_LEVEL, levelFromXp(xpTotal)) : levelFromXp(xpTotal);
   const unlockedSkinIds = new Set([
     ...base.unlockedSkinIds,
     ...(Array.isArray(parsed.unlockedSkinIds) ? parsed.unlockedSkinIds : []),
@@ -616,6 +617,7 @@ export const getSkinByUnityModelId = (unityModelId: string) =>
   AR_SKINS.find((skin) => skin.unityModelId === unityModelId);
 
 export const getSkinAccess = (skin: ArSkin, state: ProgressionState): SkinAccess => {
+  if (DEMO_MAX) return "unlocked";
   if (state.unlockedSkinIds.includes(skin.id)) return "unlocked";
   if (skin.previewAvailable) return "preview";
   return "locked";
@@ -632,6 +634,7 @@ export const skinLockReason = (skin: ArSkin, state: ProgressionState) => {
 };
 
 const isEligibleForSkin = (skin: ArSkin, state: ProgressionState) => {
+  if (DEMO_MAX) return true;
   if (state.profile.level < skin.requiredLevel) return false;
   if (skin.requiredMissionId && !state.missions[skin.requiredMissionId]?.claimedAt) return false;
   if (skin.requiredGarmentId && !state.ownedGarmentIds.includes(skin.requiredGarmentId))
@@ -672,6 +675,7 @@ export const mergeRemoteProgressionSnapshot = (
 ): ProgressionState => {
   const xpTotal = Math.max(0, Number(snapshot.profile?.xpTotal ?? state.profile.xpTotal));
   const nextLevel = Math.max(
+    DEMO_MAX ? DEMO_LEVEL : 1,
     levelFromXp(xpTotal),
     Number(snapshot.profile?.level ?? state.profile.level),
   );

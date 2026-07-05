@@ -12,6 +12,9 @@ export default defineConfig(({ mode }) => {
     define: {
       "import.meta.env.VITE_UNITY_WEBVIEW": JSON.stringify(unityBuild ? "1" : ""),
       "import.meta.env.VITE_SHOW_TECH": JSON.stringify(process.env.VITE_SHOW_TECH ?? ""),
+      // DÉMO MAX : constante figée à la compilation. Absente d'un build normal
+      // (== ""), elle laisse le compilateur supprimer tout le code de démo.
+      "import.meta.env.VITE_DEMO_MAX": JSON.stringify(process.env.VITE_DEMO_MAX ?? ""),
     },
     server: {
       host: "127.0.0.1",
