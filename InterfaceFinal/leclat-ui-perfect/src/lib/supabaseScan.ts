@@ -115,3 +115,49 @@ export async function getProgression(): Promise<ProgressionEntry[] | null> {
   if (error) return null;
   return Array.isArray(data) ? (data as ProgressionEntry[]) : [];
 }
+
+const LINKED_KEY = "leclat.device_linked";
+let linkInFlight: Promise<void> | null = null;
+
+/**
+ * Continuité de compte : attache ce téléphone au compte connecté (idempotent,
+ * marqueur local + verrou anti-doublon). Une fois lié, la propriété des
+ * t-shirts et la progression d'histoire suivent le COMPTE sur tout téléphone.
+ */
+export async function ensureDeviceLinked(userId: string): Promise<void> {
+  if (!hasSupabaseConfig() || !supabase || !userId) return;
+  const marker = `${userId}:${getDeviceId()}`;
+  try {
+    if (localStorage.getItem(LINKED_KEY) === marker) return;
+  } catch {
+    // localStorage indisponible — on retentera à chaque session.
+  }
+  if (linkInFlight) return linkInFlight;
+  const client = supabase;
+  linkInFlight = (async () => {
+    const { data, error } = await client.rpc("link_device", { p_device_id: getDeviceId() });
+    if (!error && (data as { ok?: boolean } | null)?.ok === true) {
+      try {
+        localStorage.setItem(LINKED_KEY, marker);
+      } catch {
+        // best-effort
+      }
+    }
+  })();
+  try {
+    return await linkInFlight;
+  } finally {
+    linkInFlight = null;
+  }
+}
+
+/**
+ * Progression du COMPTE (tous les téléphones liés) — même forme que
+ * getProgression. `null` = pas de session valide ou serveur injoignable.
+ */
+export async function getProgressionAccount(): Promise<ProgressionEntry[] | null> {
+  if (!hasSupabaseConfig() || !supabase) return null;
+  const { data, error } = await supabase.rpc("get_progression_account");
+  if (error) return null;
+  return Array.isArray(data) ? (data as ProgressionEntry[]) : [];
+}

@@ -1,5 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
-import { getProgression, hasSupabaseScanBackend } from "@/lib/supabaseScan";
+import {
+  ensureDeviceLinked,
+  getProgression,
+  getProgressionAccount,
+  hasSupabaseScanBackend,
+  type ProgressionEntry,
+} from "@/lib/supabaseScan";
+import { useSupabaseSession } from "@/hooks/useSupabaseSession";
 import { usePorteur } from "@/lib/porteur";
 
 type StoryScanStatus = "local" | "loading" | "synced" | "error";
@@ -10,6 +17,10 @@ type StoryScanStatus = "local" | "loading" | "synced" | "error";
  * POSSÉDÉ par ce device, le nombre de visiteurs qui l'ont scanné. C'est ce
  * compteur serveur qui ouvre les paliers 1/20/40, pas le compteur local.
  * Le compteur local du porteur ne sert que sans backend (dev/preview).
+ *
+ * Continuité de compte (2026-07-05) : si un compte est connecté, ce téléphone
+ * lui est attaché (link_device) et la progression vient du COMPTE — elle
+ * couvre tous les téléphones liés, donc elle survit à un changement d'appareil.
  */
 const CACHE_KEY = "leclat.story_counts.v2";
 
@@ -26,7 +37,9 @@ const readCache = (): Record<string, number> => {
 
 export const useStoryScanCounts = () => {
   const { state } = usePorteur();
+  const auth = useSupabaseSession();
   const serverMode = hasSupabaseScanBackend();
+  const userId = auth.status === "signed-in" ? auth.user?.id : undefined;
   const [serverCounts, setServerCounts] = useState<Record<string, number>>(readCache);
   const [status, setStatus] = useState<StoryScanStatus>(serverMode ? "loading" : "local");
   const [error, setError] = useState<string | null>(null);
@@ -37,7 +50,13 @@ export const useStoryScanCounts = () => {
 
     const load = async () => {
       setStatus("loading");
-      const entries = await getProgression();
+      let entries: ProgressionEntry[] | null = null;
+      if (userId) {
+        await ensureDeviceLinked(userId);
+        entries = await getProgressionAccount();
+      }
+      // Sans compte (ou compte injoignable) : progression du téléphone seul.
+      if (entries === null) entries = await getProgression();
       if (cancelled) return;
 
       if (entries === null) {
@@ -66,7 +85,7 @@ export const useStoryScanCounts = () => {
     return () => {
       cancelled = true;
     };
-  }, [serverMode]);
+  }, [serverMode, userId]);
 
   const fragmentScanCounts = useMemo(
     () => (serverMode ? serverCounts : state.fragmentScanCounts),

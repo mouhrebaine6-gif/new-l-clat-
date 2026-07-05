@@ -239,6 +239,12 @@ const copy = {
   linkConfirmed: text("⊹ Lien confirmé ⊹", "⊹ Link confirmed ⊹", "⊹ تم تأكيد الصلة ⊹"),
   closeVeil: text("Refermer le Voile", "Close the Veil", "أغلق السِّتار"),
   skinLocked: text("Skin AR verrouillé", "AR skin locked", "سكين الواقع المعزز مقفل"),
+  visitorMode: text("Tu es visiteur ici", "You're a visitor here", "أنت زائرٌ هنا"),
+  visitorModeDesc: text(
+    "Ce vêtement appartient à un autre porteur : ton scan nourrit son histoire, pas la tienne.",
+    "This garment belongs to another wearer: your scan feeds their story, not yours.",
+    "هذه القطعة لحاملٍ آخر: مسحُك يغذّي حكايته، لا حكايتك.",
+  ),
   previewRitual: text("Aperçu rituel", "Ritual preview", "معاينة طقسية"),
   previewRitualDesc: text(
     "Simulation desktop — la vraie reconnaissance se fait avec la caméra.",
@@ -377,6 +383,11 @@ export default function ScanPage() {
       }));
       setPhase("tearing");
       haptic("rituel");
+      // Vérité serveur : is_owner === false → on prévient EXPLICITEMENT le
+      // visiteur que ce t-shirt appartient à un autre porteur (Règle 5).
+      if (resolution?.source === "backend" && resolution.is_owner === false) {
+        toast(tr(copy.visitorMode), { description: tr(copy.visitorModeDesc) });
+      }
       setTimeout(
         () => {
           setRevealed(f);

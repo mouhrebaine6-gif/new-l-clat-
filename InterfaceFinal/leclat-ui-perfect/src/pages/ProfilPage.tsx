@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Award,
@@ -19,6 +19,7 @@ import { LanguageModule } from "@/components/LanguageModule";
 import { BackendStatusModule } from "@/components/BackendStatusModule";
 import { useAccountProgression } from "@/hooks/useAccountProgression";
 import { GARMENT_CATALOG, MISSIONS, STORY_REWARDS } from "@/lib/progression";
+import { ensureDeviceLinked } from "@/lib/supabaseScan";
 import { toRoman } from "@/lib/porteur";
 import { gradeForLevel } from "@/lib/grades";
 import { text, useI18n, type Localized } from "@/lib/i18n";
@@ -54,9 +55,9 @@ const copy = {
   accountGuest: text("Invité", "Guest", "ضيف"),
   remoteStatusLabel: text("Progression : ", "Progress: ", "التقدّم : "),
   remoteHint: text(
-    "Invité = progression gardée sur ce téléphone. Compte connecté = progression synchronisée et séparée pour chaque porteur.",
-    "Guest = progress kept on this phone. Signed-in account = synced progress separated for each bearer.",
-    "الضيف = تقدّم محفوظ على هذا الهاتف. الحساب المتصل = تقدّم متزامن ومنفصل لكل حامل.",
+    "Invité = progression gardée sur ce téléphone. Compte connecté = tes t-shirts et ton histoire te suivent sur n'importe quel téléphone.",
+    "Guest = progress kept on this phone. Signed in = your t-shirts and your story follow you on any phone.",
+    "الضيف = تقدّم محفوظ على هذا الهاتف. الحساب المتصل = قمصانك وحكايتك تتبعانك على أي هاتف.",
   ),
   linkSent: text("Lien envoyé", "Link sent", "تم إرسال الرابط"),
   checkEmail: text("Vérifiez votre email.", "Check your email.", "تحقّق من بريدك."),
@@ -64,9 +65,9 @@ const copy = {
   codeRefused: text("Code refusé", "Code refused", "تم رفض الرمز"),
   codeAccepted: text("Compte connecté", "Account linked", "تم ربط الحساب"),
   codeAcceptedDesc: text(
-    "Progression chargée pour ce compte.",
-    "Progress loaded for this account.",
-    "تم تحميل التقدّم لهذا الحساب.",
+    "Ce téléphone est lié : t-shirts et histoire suivent ce compte.",
+    "This phone is linked: t-shirts and story follow this account.",
+    "رُبط هذا الهاتف: القمصان والحكاية تتبعان هذا الحساب.",
   ),
   linkBtn: text("Lien", "Link", "الرابط"),
   out: text("Sortir", "Sign out", "خروج"),
@@ -187,6 +188,13 @@ export default function ProfilPage() {
   const grade = gradeForLevel(state.profile.level);
   const [email, setEmail] = useState(auth.user?.email || "");
   const [otp, setOtp] = useState("");
+
+  // Continuité de compte : dès qu'un compte est connecté, ce téléphone lui est
+  // attaché — t-shirts et progression d'histoire suivent alors le compte.
+  const userId = auth.user?.id;
+  useEffect(() => {
+    if (auth.status === "signed-in" && userId) void ensureDeviceLinked(userId);
+  }, [auth.status, userId]);
 
   const ownedGarments = useMemo(
     () => GARMENT_CATALOG.filter((garment) => state.ownedGarmentIds.includes(garment.id)),

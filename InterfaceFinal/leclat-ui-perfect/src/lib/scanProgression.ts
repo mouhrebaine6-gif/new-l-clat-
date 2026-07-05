@@ -30,6 +30,8 @@ export type ScanResolution = {
   legacy_tier: ScanTier;
   source: "backend" | "local_preview";
   context_confirmed: boolean;
+  /** Vérité serveur : false = scan du t-shirt d'un AUTRE porteur (visiteur). */
+  is_owner?: boolean;
   scan_session_id?: string;
   ephemeral_token?: string;
   expires_at?: string;
@@ -117,6 +119,7 @@ export async function resolveLeclatScan(input: ScanResolveInput): Promise<ScanRe
         legacy_tier: accessLevelToTier(access),
         source: "backend",
         context_confirmed: true,
+        is_owner: server.is_owner === true || server.owner === true,
       };
     }
     // Serveur indisponible / token inconnu → aperçu local (montre l'AR, ne compte pas).
