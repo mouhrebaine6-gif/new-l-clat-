@@ -74,7 +74,7 @@ export const ScanButton = React.forwardRef<HTMLButtonElement, ScanButtonProps>(
           whileTap={voileFerme ? undefined : { scale: 0.96 }}
           className={cn(
             "relative tap rounded-full w-28 h-28 sm:w-32 sm:h-32 flex items-center justify-center",
-            "border transition-all duration-700",
+            "border transition-[border-color,transform,box-shadow] duration-300 ease-out",
             voileFerme
               ? "border-voile-dim/30 bg-noir-profond/70 text-voile-dim/50 cursor-not-allowed"
               : "border-laiton/60 bg-noir-profond text-laiton hover:border-laiton hover:scale-[1.02]",

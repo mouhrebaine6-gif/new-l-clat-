@@ -92,7 +92,7 @@ export const Onboarding = () => {
       <div className="absolute inset-0 ciel-poussiere opacity-60 anim-drift pointer-events-none" />
       <div className="absolute inset-0 vignette-mineral pointer-events-none" />
 
-      <div className="relative min-h-screen max-w-xl mx-auto px-6 py-12 flex flex-col">
+      <div className="relative min-h-dvh max-w-xl mx-auto px-6 py-12 flex flex-col">
         <div className="absolute right-6 top-5 z-10">
           <LanguageSwitch compact />
         </div>
@@ -101,7 +101,7 @@ export const Onboarding = () => {
           {[0, 1, 2, 3].map((n) => (
             <span
               key={n}
-              className={`h-px transition-all duration-700 ${n <= step ? "bg-laiton w-10" : "bg-border w-6"}`}
+              className={`h-px transition-[width,background-color] duration-500 ease-out ${n <= step ? "bg-laiton w-10" : "bg-border w-6"}`}
             />
           ))}
         </div>
@@ -142,7 +142,7 @@ export const Onboarding = () => {
               <Ornement className="max-w-xs" />
               <button
                 onClick={next}
-                className="px-10 py-4 border border-laiton text-laiton hover:bg-laiton hover:text-primary-foreground transition-all duration-700 font-mono-eclat text-[11px] tracking-rituel uppercase flex items-center gap-3"
+                className="px-10 py-4 border border-laiton text-laiton hover:bg-laiton hover:text-primary-foreground transition-[color,background-color,border-color] duration-200 ease-out font-mono-eclat text-[11px] tracking-rituel uppercase flex items-center gap-3"
               >
                 {tr(onboardingCopy.start)} <ArrowRight className="w-3 h-3" />
               </button>
@@ -185,7 +185,7 @@ export const Onboarding = () => {
               <button
                 disabled={!name.trim()}
                 onClick={next}
-                className="px-10 py-4 border border-laiton text-laiton hover:bg-laiton hover:text-primary-foreground transition-all duration-700 font-mono-eclat text-[11px] tracking-rituel uppercase flex items-center gap-3 disabled:opacity-30"
+                className="px-10 py-4 border border-laiton text-laiton hover:bg-laiton hover:text-primary-foreground transition-[color,background-color,border-color] duration-200 ease-out font-mono-eclat text-[11px] tracking-rituel uppercase flex items-center gap-3 disabled:opacity-30"
               >
                 {tr(onboardingCopy.continue)} <ArrowRight className="w-3 h-3" />
               </button>
@@ -233,7 +233,7 @@ export const Onboarding = () => {
               </div>
               <button
                 onClick={next}
-                className="px-10 py-4 border border-laiton text-laiton hover:bg-laiton hover:text-primary-foreground transition-all duration-700 font-mono-eclat text-[11px] tracking-rituel uppercase flex items-center gap-3"
+                className="px-10 py-4 border border-laiton text-laiton hover:bg-laiton hover:text-primary-foreground transition-[color,background-color,border-color] duration-200 ease-out font-mono-eclat text-[11px] tracking-rituel uppercase flex items-center gap-3"
               >
                 {tr(onboardingCopy.continue)} <ArrowRight className="w-3 h-3" />
               </button>

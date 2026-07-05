@@ -24,7 +24,9 @@ function locate(data, seg, pred, label) {
   return hits[0][1];
 }
 
-const fr = load(FILES.fr), en = load(FILES.en), ar = load(FILES.ar);
+const fr = load(FILES.fr),
+  en = load(FILES.en),
+  ar = load(FILES.ar);
 const log = [];
 
 // ── F1 — couper l'explication du rite (fin de paragraphe, 3 langues) ────────
@@ -42,7 +44,9 @@ for (const [L, d, cut] of [
 // ── F2 — restaurer le climax EN/AR (insérer avant « He refused. » / « رفض. ») ─
 {
   const j = locate(en.data, 18, (p) => p === "He refused.", "F2.en");
-  en.data[18].splice(j, 0,
+  en.data[18].splice(
+    j,
+    0,
     "He stayed.",
     "He said in a low voice, to the empty air, to the voice that was not quite his mother's: No.",
     "The wind dropped for a moment. Not long. Long enough for him to hear a sound behind him, at the height of his shoulder blade, like a thread snapping in the silence.",
@@ -52,7 +56,9 @@ for (const [L, d, cut] of [
 }
 {
   const j = locate(ar.data, 18, (p) => p === "رفض.", "F2.ar");
-  ar.data[18].splice(j, 0,
+  ar.data[18].splice(
+    j,
+    0,
     "بقي.",
     "قال بصوتٍ خفيض، للهواء الفارغ، للصوت الذي لم يكن تمامًا صوتَ أمّه: لا.",
     "سقطت الريح لحظةً. ليس طويلًا. بما يكفي ليسمع خلفه صوتًا، على ارتفاع لوح كتفه، كخيطٍ ينقطع في الصمت.",
@@ -77,9 +83,24 @@ for (const [L, d, cut] of [
 
 // ── F4 — Cem/Iyad : lever le calage sans expliquer ───────────────────────────
 for (const [L, d, tail, add] of [
-  ["fr", fr, "la pince courte aux trois lettres gravées resta dans le noir.", " Un autre nom. Une autre perte."],
-  ["en", en, "the short pliers with the three scratched letters stayed in the dark.", " Another name. Another loss."],
-  ["ar", ar, "بقيت الكمّاشة القصيرة بأحرفها الثلاثة المحفورة في السواد.", " اسمٌ آخر. خسارةٌ أخرى."],
+  [
+    "fr",
+    fr,
+    "la pince courte aux trois lettres gravées resta dans le noir.",
+    " Un autre nom. Une autre perte.",
+  ],
+  [
+    "en",
+    en,
+    "the short pliers with the three scratched letters stayed in the dark.",
+    " Another name. Another loss.",
+  ],
+  [
+    "ar",
+    ar,
+    "بقيت الكمّاشة القصيرة بأحرفها الثلاثة المحفورة في السواد.",
+    " اسمٌ آخر. خسارةٌ أخرى.",
+  ],
 ]) {
   const j = locate(d.data, 29, (p) => p.includes(tail), `F4.${L}`);
   d.data[29][j] = d.data[29][j] + add;
@@ -93,12 +114,26 @@ const NOTE =
 function save(file, { header, name, data }, isAr) {
   const norm = (p) => (isAr ? p.normalize("NFC") : p);
   const body = data
-    .map((seg) => "  [\n" + seg.map((p) => "    " + JSON.stringify(norm(p)) + ",").join("\n") + "\n  ],")
+    .map(
+      (seg) =>
+        "  [\n" + seg.map((p) => "    " + JSON.stringify(norm(p)) + ",").join("\n") + "\n  ],",
+    )
     .join("\n");
-  fs.writeFileSync(file, header + NOTE + `export const ${name}: string[][] = [\n` + body + "\n];\n", "utf8");
+  fs.writeFileSync(
+    file,
+    header + NOTE + `export const ${name}: string[][] = [\n` + body + "\n];\n",
+    "utf8",
+  );
 }
 save(FILES.fr, fr, false);
 save(FILES.en, en, false);
 save(FILES.ar, ar, true);
 log.forEach((l) => console.log("OK", l));
-console.log("Paragraphes seg18 — FR:", fr.data[18].length, "EN:", en.data[18].length, "AR:", ar.data[18].length);
+console.log(
+  "Paragraphes seg18 — FR:",
+  fr.data[18].length,
+  "EN:",
+  en.data[18].length,
+  "AR:",
+  ar.data[18].length,
+);

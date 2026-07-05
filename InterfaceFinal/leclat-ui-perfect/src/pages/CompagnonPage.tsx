@@ -5,6 +5,7 @@ import { AlertTriangle, ArrowLeft, Lock, ScanLine } from "lucide-react";
 import { useStoryScanCounts } from "@/hooks/useStoryScanCounts";
 import { fragmentsRemainingForLore, isStoryComplete } from "@/lib/loreAccess";
 import { Ornement, Sceau } from "@/components/Sceau";
+import { ProseSkeleton } from "@/components/VoileSkeleton";
 import { Button } from "@/components/ui/button";
 import { text, useI18n, type Lang } from "@/lib/i18n";
 
@@ -126,7 +127,8 @@ export default function CompagnonPage() {
               {tr(copy.lockedBody)}
             </p>
             <p className="mt-5 font-mono-eclat text-[10px] uppercase tracking-rituel text-voile-dim">
-              {tr(copy.remaining)} · {remaining}/10
+              {tr(copy.remaining)} ·{" "}
+              <span style={{ fontVariantNumeric: "tabular-nums" }}>{remaining}/10</span>
             </p>
             <Ornement className="mx-auto my-8 max-w-[10rem]" />
             <div className="flex flex-col gap-3">
@@ -236,9 +238,12 @@ const CompagnonContent = ({ lang, tr }: { lang: Lang; tr: ReturnType<typeof useI
       <section className="px-6 py-9">
         <div className="mx-auto max-w-xl">
           {status === "loading" && (
-            <p className="py-16 text-center font-mono-eclat text-[10px] uppercase tracking-rituel text-laiton anim-respire">
-              {tr(copy.loading)}
-            </p>
+            <div aria-busy="true" className="py-6">
+              <p className="mb-8 text-center font-mono-eclat text-[10px] uppercase tracking-rituel text-laiton anim-respire">
+                {tr(copy.loading)}
+              </p>
+              <ProseSkeleton lines={9} />
+            </div>
           )}
           {status === "error" && (
             <p className="py-16 text-center font-serif-rituel italic text-voile-dim">

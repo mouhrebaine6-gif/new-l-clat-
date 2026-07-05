@@ -124,12 +124,12 @@ export const AppLayout = ({ children }: { children: ReactNode }) => {
             <VoileMenu />
             <NavLink
               to="/"
-              className="flex items-center gap-3 group tap min-w-0"
+              className="flex shrink-0 items-center gap-3 group tap pe-1"
               aria-label="L'Éclat"
             >
               <Wordmark
                 size={18}
-                className="transition group-hover:[text-shadow:0_0_28px_hsl(var(--laiton)/0.35)]"
+                className="shrink-0 transition group-hover:[text-shadow:0_0_28px_hsl(var(--laiton)/0.35)]"
               />
               <span className="font-mono-eclat text-[8px] tracking-rituel text-voile-dim/50 uppercase hidden sm:block border-l border-border/60 ps-3">
                 Drop 01

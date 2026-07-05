@@ -58,7 +58,7 @@ export const CartDrawer = () => {
                 to="/boutique"
                 onClick={() => setOpen(false)}
                 style={{ touchAction: "manipulation" }}
-                className="inline-block rounded-full px-6 py-3 border border-laiton/60 text-laiton text-[10px] font-mono-eclat tracking-rituel uppercase hover:bg-laiton hover:text-primary-foreground transition-all duration-700 active:scale-95"
+                className="inline-block rounded-full px-6 py-3 border border-laiton/60 text-laiton text-[10px] font-mono-eclat tracking-rituel uppercase hover:bg-laiton hover:text-primary-foreground transition-[color,background-color,border-color,transform] duration-200 ease-out active:scale-95"
               >
                 {tr(cartCopy.visit)}
               </Link>

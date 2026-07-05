@@ -20,6 +20,7 @@ import { FragmentIcon } from "@/components/FragmentIcon";
 import { Ornement, Sceau } from "@/components/Sceau";
 import { useFragmentStoryUnlocks } from "@/hooks/useFragmentStoryUnlocks";
 import { useStoryScanCounts } from "@/hooks/useStoryScanCounts";
+import { StorySkeleton } from "@/components/VoileSkeleton";
 import { fragmentsRemainingForLore, isStoryComplete } from "@/lib/loreAccess";
 import { toRoman } from "@/lib/porteur";
 import { text, useI18n } from "@/lib/i18n";
@@ -145,7 +146,7 @@ export default function HistoirePage() {
 
           <div className="mx-auto mt-7 max-w-sm">
             <div className="flex items-center justify-between font-mono-eclat text-[10px] uppercase tracking-rituel text-voile-dim">
-              <span>
+              <span style={{ fontVariantNumeric: "tabular-nums" }}>
                 {openedTiers}/{totalTiers}
               </span>
               <span>{tr(copy.progress)}</span>
@@ -155,7 +156,7 @@ export default function HistoirePage() {
               style={{ background: "rgba(228,220,204,.1)" }}
             >
               <div
-                className="h-full rounded-full transition-all duration-700"
+                className="h-full rounded-full transition-[width] duration-700 ease-out"
                 style={{
                   width: `${Math.round((openedTiers / totalTiers) * 100)}%`,
                   background: "linear-gradient(90deg,#b8893a,#f4d79e)",
@@ -203,9 +204,12 @@ export default function HistoirePage() {
         </div>
 
         {storyStatus === "loading" && (
-          <p className="py-16 text-center font-mono-eclat text-[10px] uppercase tracking-rituel text-laiton anim-respire">
-            {tr(copy.storyLoading)}
-          </p>
+          <div aria-busy="true" className="py-4">
+            <p className="mb-8 text-center font-mono-eclat text-[10px] uppercase tracking-rituel text-laiton anim-respire">
+              {tr(copy.storyLoading)}
+            </p>
+            <StorySkeleton blocks={2} />
+          </div>
         )}
         {storyStatus === "error" && (
           <p className="py-16 text-center font-serif-rituel italic text-voile-dim">

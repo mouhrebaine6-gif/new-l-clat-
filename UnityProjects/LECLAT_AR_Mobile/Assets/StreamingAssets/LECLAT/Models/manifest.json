@@ -1,17 +1,17 @@
 {
   "generatedAtUtc": "2026-05-26T01:01:01.1883033Z",
   "sourceManifest": "D:\\LECLAT\\ModelLibrary_Curated\\UNITY_MOBILE_FINAL_20260526\\optimization-report.json",
-  "note": "Runtime model manifest for L ECLAT Unity AR. GLB files are mobile optimized with meshopt compression and max 512px textures. Production release still requires license approval where marked.",
+  "note": "Runtime model manifest. Tous les fichiers référencés sont CC-BY-4.0 vérifiés (voir CREDITS_3D_MODELS.md à la racine du repo). Passe licences 2026-07-05.",
   "fragments": [
     {
       "fragmentId": "FRAGMENT_09_ASCENSION_TEST",
       "modelId": "MODEL_0060",
       "usage": "back_wings",
-      "file": "back_wings/MODEL_0060_back_wings_AR_READY_unity_ready.glb",
+      "file": "back_wings/FRAGMENT_ASCENSION.glb",
       "sourceVerdict": "AR_READY",
       "sourceVariant": "MOBILE_LITE",
-      "licensePolicy": "LICENSE_REVIEW_REQUIRED_BEFORE_PRODUCTION",
-      "productionApproved": false,
+      "licensePolicy": "CC-BY-4.0_ATTRIBUTION_IN_CREDITS_3D_MODELS_MD",
+      "productionApproved": true,
       "placement": {
         "anchor": "back_shoulders",
         "targetSizeMeters": 1.5,
@@ -48,17 +48,18 @@
       "aliases": [
         "ascension_wings",
         "skin_wings_ascension"
-      ]
+      ],
+      "note": "Re-routé 2026-07-05: ancien fichier sans licence retiré"
     },
     {
       "fragmentId": "FRAGMENT_10_ANGEL_WINGS_TEST",
       "modelId": "MODEL_0188",
       "usage": "back_wings",
-      "file": "back_wings/MODEL_0188_back_wings_AR_READY_unity_ready.glb",
+      "file": "back_wings/FRAGMENT_SOUFFLE.glb",
       "sourceVerdict": "AR_READY",
       "sourceVariant": "MOBILE_LITE",
-      "licensePolicy": "INTERNAL_TEST_ONLY_LICENSE_UNKNOWN",
-      "productionApproved": false,
+      "licensePolicy": "CC-BY-4.0_ATTRIBUTION_IN_CREDITS_3D_MODELS_MD",
+      "productionApproved": true,
       "placement": {
         "anchor": "back_shoulders",
         "targetSizeMeters": 1.5,
@@ -95,7 +96,8 @@
       "aliases": [
         "souffle",
         "skin_angel_wings"
-      ]
+      ],
+      "note": "Re-routé 2026-07-05: ancien fichier licence Sketchfab Standard retiré"
     },
     {
       "fragmentId": "FRAGMENT_11_DRAGON_WINGS_TEST",
@@ -104,8 +106,8 @@
       "file": "back_wings/MODEL_0312_back_wings_AR_READY_unity_ready.glb",
       "sourceVerdict": "AR_READY",
       "sourceVariant": "MOBILE_LITE",
-      "licensePolicy": "INTERNAL_TEST_ONLY_LICENSE_UNKNOWN",
-      "productionApproved": false,
+      "licensePolicy": "CC-BY-4.0_ATTRIBUTION_IN_CREDITS_3D_MODELS_MD",
+      "productionApproved": true,
       "placement": {
         "anchor": "back_shoulders",
         "targetSizeMeters": 1.5,
@@ -151,8 +153,8 @@
       "file": "back_wings/MODEL_0429_back_wings_AR_READY_unity_ready.glb",
       "sourceVerdict": "AR_READY",
       "sourceVariant": "MOBILE_LITE",
-      "licensePolicy": "INTERNAL_TEST_ONLY_LICENSE_UNKNOWN",
-      "productionApproved": false,
+      "licensePolicy": "CC-BY-4.0_ATTRIBUTION_IN_CREDITS_3D_MODELS_MD",
+      "productionApproved": true,
       "placement": {
         "anchor": "back_shoulders",
         "targetSizeMeters": 1.5,
@@ -198,8 +200,8 @@
       "file": "back_wings/MODEL_0500_back_wings_AR_READY_unity_ready.glb",
       "sourceVerdict": "AR_READY",
       "sourceVariant": "MOBILE_LITE",
-      "licensePolicy": "INTERNAL_TEST_ONLY_LICENSE_UNKNOWN",
-      "productionApproved": false,
+      "licensePolicy": "CC-BY-4.0_ATTRIBUTION_IN_CREDITS_3D_MODELS_MD",
+      "productionApproved": true,
       "placement": {
         "anchor": "back_shoulders",
         "targetSizeMeters": 1.5,
@@ -246,8 +248,8 @@
       "file": "back_wings/MODEL_0476_back_wings_AR_READY_unity_ready.glb",
       "sourceVerdict": "AR_READY",
       "sourceVariant": "MOBILE_LITE",
-      "licensePolicy": "INTERNAL_TEST_ONLY_LICENSE_UNKNOWN",
-      "productionApproved": false,
+      "licensePolicy": "CC-BY-4.0_ATTRIBUTION_IN_CREDITS_3D_MODELS_MD",
+      "productionApproved": true,
       "placement": {
         "anchor": "back_shoulders",
         "targetSizeMeters": 1.5,
@@ -293,8 +295,8 @@
       "file": "side_dragon/MODEL_0091_side_dragon_AR_READY_unity_ready.glb",
       "sourceVerdict": "AR_READY",
       "sourceVariant": "MOBILE_LITE",
-      "licensePolicy": "INTERNAL_TEST_ONLY_LICENSE_UNKNOWN",
-      "productionApproved": false,
+      "licensePolicy": "CC-BY-4.0_ATTRIBUTION_IN_CREDITS_3D_MODELS_MD",
+      "productionApproved": true,
       "placement": {
         "anchor": "side_companion",
         "targetSizeMeters": 0.72,
@@ -340,8 +342,8 @@
       "file": "shoulder_animal/MODEL_0255_shoulder_animal_AR_READY_unity_ready.glb",
       "sourceVerdict": "AR_READY",
       "sourceVariant": "MOBILE_LITE",
-      "licensePolicy": "LICENSE_REVIEW_REQUIRED_BEFORE_PRODUCTION",
-      "productionApproved": false,
+      "licensePolicy": "CC-BY-4.0_ATTRIBUTION_IN_CREDITS_3D_MODELS_MD",
+      "productionApproved": true,
       "placement": {
         "anchor": "upper_shoulder",
         "targetSizeMeters": 0.26,
@@ -387,8 +389,8 @@
       "file": "shoulder_robot_or_mech/MODEL_0518_shoulder_robot_or_mech_AR_READY_unity_ready.glb",
       "sourceVerdict": "AR_READY",
       "sourceVariant": "MOBILE_LITE",
-      "licensePolicy": "INTERNAL_TEST_ONLY_LICENSE_UNKNOWN",
-      "productionApproved": false,
+      "licensePolicy": "CC-BY-4.0_ATTRIBUTION_IN_CREDITS_3D_MODELS_MD",
+      "productionApproved": true,
       "placement": {
         "anchor": "upper_shoulder",
         "targetSizeMeters": 0.34,
@@ -434,8 +436,8 @@
       "file": "magic_object/MODEL_0104_magic_object_AR_READY_unity_ready.glb",
       "sourceVerdict": "AR_READY",
       "sourceVariant": "MOBILE_LITE",
-      "licensePolicy": "INTERNAL_TEST_ONLY_LICENSE_UNKNOWN",
-      "productionApproved": false,
+      "licensePolicy": "CC-BY-4.0_ATTRIBUTION_IN_CREDITS_3D_MODELS_MD",
+      "productionApproved": true,
       "placement": {
         "anchor": "front_or_shoulder_secondary",
         "targetSizeMeters": 0.32,

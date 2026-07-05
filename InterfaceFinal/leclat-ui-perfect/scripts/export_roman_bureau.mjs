@@ -46,7 +46,8 @@ const META = {
   },
   en: {
     file: "LECLAT_THE_THRESHOLD_NOVEL_EN.md",
-    title: "# L'ÉCLAT — The Threshold\n\n*Contemporary literary novel with a discreet speculative edge.*",
+    title:
+      "# L'ÉCLAT — The Threshold\n\n*Contemporary literary novel with a discreet speculative edge.*",
     note: "> Note for the analyst: this novel is built for tiered reading (30 sequential segments). It NEVER names its own fantastic apparatus — by design: the world is felt through its effects, never through its names. The text also reads backwards (each scene changes meaning when reread from the end, without contradicting its first meaning).",
     prologueLabel: "## Prologue — ",
     src: "src/data/storySegments.en.ts",
@@ -62,7 +63,11 @@ const META = {
 
 // Bureau : gère la redirection OneDrive éventuelle.
 const home = os.homedir();
-const candidates = [path.join(home, "Desktop"), path.join(home, "OneDrive", "Desktop"), path.join(home, "OneDrive", "Bureau")];
+const candidates = [
+  path.join(home, "Desktop"),
+  path.join(home, "OneDrive", "Desktop"),
+  path.join(home, "OneDrive", "Bureau"),
+];
 const desktop = candidates.find((d) => fs.existsSync(d));
 if (!desktop) throw new Error("Bureau introuvable: " + candidates.join(" | "));
 
