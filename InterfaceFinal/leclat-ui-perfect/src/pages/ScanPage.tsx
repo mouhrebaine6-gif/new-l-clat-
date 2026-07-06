@@ -32,6 +32,8 @@ import { toast } from "sonner";
 import { text, useI18n, type Localized } from "@/lib/i18n";
 import { AR_SKINS, getActiveUnityModelId, getSkinAccess } from "@/lib/progression";
 import { DEMO_MAX } from "@/lib/demoMax";
+import { Model3DViewer } from "@/components/Model3DViewer";
+import { Rotate3d } from "lucide-react";
 import { useAccountProgression } from "@/hooks/useAccountProgression";
 import {
   createLocalPreviewResolution,
@@ -302,6 +304,7 @@ export default function ScanPage() {
   const [hookText, setHookText] = useState("");
   const [stepText, setStepText] = useState(tr(copy.aim));
   const [selectedBackFragmentId, setSelectedBackFragmentId] = useState(DEFAULT_BACK_FRAGMENT_ID);
+  const [viewer3dOpen, setViewer3dOpen] = useState(false);
   const { recordScan, state } = usePorteur();
   const {
     recordEvent: recordProgressEvent,
@@ -322,15 +325,6 @@ export default function ScanPage() {
     phaseRef.current = phase;
   }, [phase]);
 
-  // Scan DANS Unity : on rend le web transparent le temps du scan pour laisser
-  // voir la caméra AR (la WebView native est initialisée transparente). Le reste
-  // de l'app garde son fond opaque ; la classe est retirée dès la fin du scan.
-  useEffect(() => {
-    const root = document.documentElement;
-    if (scanActive && insideUnity) root.classList.add("leclat-scan-live");
-    else root.classList.remove("leclat-scan-live");
-    return () => root.classList.remove("leclat-scan-live");
-  }, [scanActive, insideUnity]);
   useEffect(() => {
     if (scanActive) return;
     const activeUnityModelId = getActiveUnityModelId(progressionState);
@@ -859,7 +853,29 @@ export default function ScanPage() {
             );
           })}
         </div>
+
+        {/* Voir la présence 3D SANS caméra ni t-shirt — modèle tournable à la main. */}
+        <button
+          type="button"
+          onClick={() => {
+            haptic("select");
+            setViewer3dOpen(true);
+          }}
+          disabled={scanActive}
+          className="tap mt-3 flex w-full items-center justify-center gap-2 rounded-full border border-laiton/50 bg-laiton/10 px-4 py-3 font-mono-eclat text-[11px] uppercase tracking-rituel text-laiton transition hover:bg-laiton/20 disabled:opacity-50"
+        >
+          <Rotate3d className="h-4 w-4" strokeWidth={1.5} />
+          {tr(text("Voir le modèle en 3D", "View the model in 3D", "اعرض النموذج ثلاثي الأبعاد"))}
+        </button>
       </section>
+
+      {viewer3dOpen && (
+        <Model3DViewer
+          unityModelId={selectedBackFragmentId}
+          lang={lang}
+          onClose={() => setViewer3dOpen(false)}
+        />
+      )}
 
       {/* Viseur */}
       <section className="px-6">
