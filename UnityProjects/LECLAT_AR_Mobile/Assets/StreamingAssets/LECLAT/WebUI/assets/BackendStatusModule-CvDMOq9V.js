@@ -1,0 +1,1 @@
+import{l as e}from"./motion-DbGqPwhU.js";import{f as t,m as n}from"./index-DcCBTTWE.js";e();var r=({compact:e=!1})=>(n(),t(),null);export{r as t};
