@@ -1,0 +1,1 @@
+import{l as e}from"./motion-DbGqPwhU.js";import{f as t}from"./index-DL98uJju.js";e();var n=({label:e,className:n=``})=>(t(),null);export{n as t};
