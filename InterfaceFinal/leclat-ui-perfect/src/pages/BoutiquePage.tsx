@@ -21,7 +21,13 @@ const SYMBOLS = ["✦", "❂", "◈", "◇", "✶", "✧", "❖", "◆", "✺", 
 
 export default function BoutiquePage() {
   const { lang, tr } = useI18n();
-  const unlockedFragments = localizeFragments(rawUnlockedFragments, lang);
+  // La Boutique ne montre QUE les pièces réellement vendables (celles qui ont
+  // un visuel produit). En mode démo, tous les fragments sont « unlocked »,
+  // mais les fragments 6–10 n'ont pas d'images → on les exclut ici pour ne pas
+  // planter sur f.images (écran noir constaté sur téléphone).
+  const unlockedFragments = localizeFragments(rawUnlockedFragments, lang).filter(
+    (f) => f.images?.worn,
+  );
 
   return (
     <div className="px-5 pb-10">

@@ -12,6 +12,16 @@ namespace Leclat.AR
 
         public bool BeginScan(out string reason)
         {
+            // Android 6+ : la caméra est INUTILISABLE tant que l'autorisation n'est pas
+            // accordée à l'exécution. On la demande ici (non bloquant) ; si l'utilisateur
+            // vient de l'accorder, Vuforia ouvrira la caméra au scan suivant.
+#if UNITY_ANDROID && !UNITY_EDITOR
+            if (!UnityEngine.Android.Permission.HasUserAuthorizedPermission(UnityEngine.Android.Permission.Camera))
+            {
+                UnityEngine.Android.Permission.RequestUserPermission(UnityEngine.Android.Permission.Camera);
+            }
+#endif
+
             if (vuforiaBehaviour == null)
             {
                 vuforiaBehaviour = FindAnyObjectByType<VuforiaBehaviour>(FindObjectsInactive.Include);

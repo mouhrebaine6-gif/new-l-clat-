@@ -396,6 +396,23 @@ html[data-unity-webview="1"] .backdrop-blur-xl {
   backdrop-filter: none !important;
 }
 
+/* Scan AR actif (dans la WebView Unity) : le web se rend TRANSPARENT le temps du
+   scan pour laisser voir la caméra Vuforia, rendue par Unity DERRIÈRE la WebView
+   transparente. La classe n'est posée que pendant le scan (cf. ScanPage) — le
+   reste de l'app garde son fond opaque. */
+html.leclat-scan-live,
+html.leclat-scan-live body,
+html.leclat-scan-live #root {
+  background-color: transparent !important;
+  background-image: none !important;
+}
+html.leclat-scan-live body::before {
+  display: none !important;
+}
+html.leclat-scan-live .voile-dust {
+  opacity: 0 !important;
+}
+
 [data-sonner-toast] {
   background: hsl(var(--noir-profond) / 0.96) !important;
   border: 1px solid hsl(var(--laiton) / 0.35) !important;

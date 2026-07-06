@@ -24,8 +24,16 @@ const copy = {
   known: text("reconnus", "known", "معروفة"),
   index: text("Index", "Index", "الفهرس"),
   passages: text("Les dix passages", "The ten passages", "العتبات العشر"),
-  awake: text("5 éveillés", "5 awake", "٥ مستيقظة"),
-  veiled: text("5 voilés", "5 veiled", "٥ مستورة"),
+  awake: text(
+    (n: number) => `${n} éveillés`,
+    (n: number) => `${n} awake`,
+    (n: number) => `${n} مستيقظة`,
+  ),
+  veiled: text(
+    (n: number) => `${n} voilés`,
+    (n: number) => `${n} veiled`,
+    (n: number) => `${n} مستورة`,
+  ),
   recognized: text("reconnu", "known", "مُعرَفة"),
   openFragment: text(
     "Ouvrir le fragment · vêtement lié en boutique",
@@ -40,10 +48,12 @@ export default function FragmentsPage() {
   const { state } = usePorteur();
   const { lang, tr } = useI18n();
   const fragments = localizeFragments(rawFragments, lang);
+  const awakeCount = fragments.filter((f) => f.unlocked).length;
+  const veiledCount = fragments.length - awakeCount;
   return (
     <div>
       {/* Hero éditorial */}
-      <section className="relative h-[64vh] overflow-hidden border-b border-border/40">
+      <section className="relative min-h-[70vh] overflow-hidden border-b border-border/40">
         <img
           src={heroSilhouette}
           alt={tr(text("Silhouette d'un porteur", "Silhouette of a bearer", "ظلّ حامل"))}
@@ -64,7 +74,7 @@ export default function FragmentsPage() {
           I
         </div>
 
-        <div className="absolute inset-0 flex flex-col justify-end p-8">
+        <div className="absolute inset-0 flex flex-col justify-end px-8 pb-8 pt-24">
           <motion.div
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -76,7 +86,7 @@ export default function FragmentsPage() {
                 {tr(copy.eyebrow)}
               </p>
             </div>
-            <h1 className="font-serif-rituel text-5xl md:text-7xl leading-[0.9] text-foreground mb-6 drop-shadow-[0_2px_18px_rgba(0,0,0,0.7)]">
+            <h1 className="font-serif-rituel text-[2.5rem] md:text-7xl leading-[0.95] md:leading-[0.9] text-foreground mb-6 drop-shadow-[0_2px_18px_rgba(0,0,0,0.7)]">
               {tr(copy.titleA)} <em className="italic text-laiton">{tr(copy.titleB)}</em>,<br />
               {tr(copy.titleC)} <em className="italic">{tr(copy.titleD)}</em>.
             </h1>
@@ -109,9 +119,9 @@ export default function FragmentsPage() {
             <h2 className="font-serif-rituel text-3xl">{tr(copy.passages)}</h2>
           </div>
           <span className="font-mono-eclat text-[10px] tracking-rituel uppercase text-voile-dim text-right leading-relaxed">
-            {tr(copy.awake)}
+            {tr(copy.awake)(awakeCount)}
             <br />
-            {tr(copy.veiled)}
+            {tr(copy.veiled)(veiledCount)}
           </span>
         </div>
 

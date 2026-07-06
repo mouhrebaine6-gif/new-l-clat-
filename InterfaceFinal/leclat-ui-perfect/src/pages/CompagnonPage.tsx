@@ -223,7 +223,7 @@ const CompagnonContent = ({ lang, tr }: { lang: Lang; tr: ReturnType<typeof useI
               type="button"
               onClick={() => setTab(n)}
               aria-pressed={tab === n}
-              className={`tap min-h-11 border px-3 font-mono-eclat text-[10px] uppercase tracking-rituel transition ${
+              className={`tap flex min-h-11 min-w-0 items-center justify-center overflow-hidden text-balance whitespace-normal break-words border px-1.5 text-center font-mono-eclat text-[9px] uppercase leading-tight tracking-[0.06em] transition ${
                 tab === n
                   ? "border-laiton bg-laiton/15 text-laiton"
                   : "border-border/60 text-voile-dim hover:text-laiton"

@@ -38,9 +38,9 @@ const copy = {
   xp: text("XP", "XP", "نقاط الخبرة"),
   coins: text("Coins", "Coins", "قطع نقدية"),
   progressToNext: text(
-    (n: number) => `${n}% vers niveau ${n + 1}`,
-    (n: number) => `${n}% to level ${n + 1}`,
-    (n: number) => `٪${n} نحو المستوى ${n + 1}`,
+    (pct: number, next: number) => `${pct}% vers niveau ${next}`,
+    (pct: number, next: number) => `${pct}% to level ${next}`,
+    (pct: number, next: number) => `٪${pct} نحو المستوى ${next}`,
   ),
   xpFmt: text(
     (xp: number, target: number) => `${xp}/${target} XP`,
@@ -132,7 +132,7 @@ const copy = {
   level: Localized<string>;
   xp: Localized<string>;
   coins: Localized<string>;
-  progressToNext: Localized<(n: number) => string>;
+  progressToNext: Localized<(pct: number, next: number) => string>;
   xpFmt: Localized<(xp: number, target: number) => string>;
   // Compte
   account: Localized<string>;
@@ -324,7 +324,7 @@ export default function ProfilPage() {
           <div className="mt-8">
             <div className="flex items-center justify-between gap-3">
               <p className="font-mono text-[9px] uppercase tracking-rituel text-voile-dim">
-                {tr(copy.progressToNext)(level.percent)}
+                {tr(copy.progressToNext)(level.percent, level.nextLevel)}
               </p>
               <p className="font-mono text-[9px] uppercase tracking-rituel text-laiton-300">
                 {tr(copy.xpFmt)(state.profile.xpTotal, level.nextLevelXp)}

@@ -33,8 +33,13 @@ export const FragmentVisual = ({
   const animateDetail = !reduce;
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [videoActive, setVideoActive] = useState(false);
-  const videoSrc = `/fragments/${id}.mp4`;
-  const poster = `/fragments/${id}.jpg`;
+  const [mediaFailed, setMediaFailed] = useState(false);
+  // Chemin RELATIF à la base de l'app (import.meta.env.BASE_URL). Indispensable
+  // dans la WebView Unity (file://) : un chemin absolu "/fragments/…" y pointe
+  // vers la racine du système de fichiers → média introuvable, cercle vide.
+  const base = import.meta.env.BASE_URL || "/";
+  const videoSrc = `${base}fragments/${id}.mp4`;
+  const poster = `${base}fragments/${id}.jpg`;
 
   useEffect(() => {
     if (!animateDetail) {
@@ -127,28 +132,38 @@ export const FragmentVisual = ({
             "0 0 32px -8px hsl(var(--laiton) / 0.4), inset 0 0 26px hsl(var(--noir-profond) / 0.65)",
         }}
       >
-        {animateDetail ? (
-          <video
-            ref={videoRef}
-            key={id}
-            className="w-full h-full object-cover"
-            src={videoSrc}
-            poster={poster}
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload={videoActive ? "auto" : "metadata"}
-            data-fragment-video="1"
-          />
-        ) : (
-          <img
-            src={poster}
-            alt={alt ?? `Fragment ${id}`}
-            className="w-full h-full object-cover"
-            loading="lazy"
-          />
-        )}
+        {/* Repli TOUJOURS présent derrière le média : sigil vectoriel du
+            fragment. Si la vidéo/poster échoue (WebView, réseau), le fragment
+            garde son symbole au lieu d'un cercle noir vide. */}
+        <FragmentIcon
+          id={id}
+          className="pointer-events-none absolute inset-[22%] text-laiton/45"
+        />
+        {!mediaFailed &&
+          (animateDetail ? (
+            <video
+              ref={videoRef}
+              key={id}
+              className="relative w-full h-full object-cover"
+              src={videoSrc}
+              poster={poster}
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload={videoActive ? "auto" : "metadata"}
+              data-fragment-video="1"
+              onError={() => setMediaFailed(true)}
+            />
+          ) : (
+            <img
+              src={poster}
+              alt={alt ?? `Fragment ${id}`}
+              className="relative w-full h-full object-cover"
+              loading="lazy"
+              onError={() => setMediaFailed(true)}
+            />
+          ))}
       </div>
 
       {/* Anneau extérieur — rotation lente (cadre laiton par-dessus le média) */}

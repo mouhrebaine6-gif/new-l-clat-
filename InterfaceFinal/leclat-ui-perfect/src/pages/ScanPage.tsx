@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -31,6 +31,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { text, useI18n, type Localized } from "@/lib/i18n";
 import { AR_SKINS, getActiveUnityModelId, getSkinAccess } from "@/lib/progression";
+import { DEMO_MAX } from "@/lib/demoMax";
 import { useAccountProgression } from "@/hooks/useAccountProgression";
 import {
   createLocalPreviewResolution,
@@ -314,6 +315,22 @@ export default function ScanPage() {
   const online = useOnline();
   const insideUnity = isInUnity();
   const scanActive = phase === "awaiting" || phase === "scanning";
+
+  // Ref de phase : lue dans les timeouts (la valeur de `phase` y serait figée).
+  const phaseRef = useRef(phase);
+  useEffect(() => {
+    phaseRef.current = phase;
+  }, [phase]);
+
+  // Scan DANS Unity : on rend le web transparent le temps du scan pour laisser
+  // voir la caméra AR (la WebView native est initialisée transparente). Le reste
+  // de l'app garde son fond opaque ; la classe est retirée dès la fin du scan.
+  useEffect(() => {
+    const root = document.documentElement;
+    if (scanActive && insideUnity) root.classList.add("leclat-scan-live");
+    else root.classList.remove("leclat-scan-live");
+    return () => root.classList.remove("leclat-scan-live");
+  }, [scanActive, insideUnity]);
   useEffect(() => {
     if (scanActive) return;
     const activeUnityModelId = getActiveUnityModelId(progressionState);
@@ -594,6 +611,24 @@ export default function ScanPage() {
       setScanStatus("waiting_unity");
       setStepText(tr(copy.waitingCloth));
       launchUnityScan(selectedBackFragmentId);
+      // DÉMO : sans t-shirt physique à reconnaître, aucun SCAN_RESULT n'arrive et
+      // l'écran resterait bloqué sur « Reconnaissance… ». On laisse d'abord sa
+      // chance à l'AR réelle, puis on révèle un fragment (aperçu, ne compte pas)
+      // pour que la démo montre la suite de l'expérience.
+      if (DEMO_MAX) {
+        const pool = unlockedFragments;
+        if (pool.length) {
+          const pick = pool[Math.floor(Math.random() * pool.length)];
+          setTimeout(
+            () => {
+              if (phaseRef.current === "awaiting" || phaseRef.current === "scanning") {
+                reveal(pick.id, createLocalPreviewResolution(pick.id, `demo-${pick.id}`));
+              }
+            },
+            reduceMotion ? 400 : 4500,
+          );
+        }
+      }
       return;
     }
 

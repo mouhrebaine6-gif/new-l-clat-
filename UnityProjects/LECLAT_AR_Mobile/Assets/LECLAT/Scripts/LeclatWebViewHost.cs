@@ -44,7 +44,11 @@ namespace Leclat.AR
             webView = go.AddComponent<WebViewObject>();
 
             // cb = messages JS → natif (le web fait window.Unity.call(json)).
-            webView.Init(cb: OnMessageFromWeb, enableWKWebView: true);
+            // transparent: true → la caméra Vuforia (rendue par Unity DERRIÈRE la
+            // WebView) devient visible partout où le web est transparent. Le web
+            // reste opaque partout SAUF pendant le scan (classe .leclat-scan-live),
+            // où il se rend transparent pour laisser voir la caméra AR.
+            webView.Init(cb: OnMessageFromWeb, transparent: true, enableWKWebView: true);
             bridge.MessageToWeb += OnMessageToWeb;
 
             webView.LoadURL(ResolveIndexUrl());
